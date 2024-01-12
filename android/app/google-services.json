@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "382440199280",
+    "project_id": "fitapp-eec89",
+    "storage_bucket": "fitapp-eec89.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:382440199280:android:e94d278aad6e1c62b350b5",
+        "android_client_info": {
+          "package_name": "com.tesis.fitapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDAqmE9sWW6RzVsTiE_23yH8-Mp_FJ586M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
