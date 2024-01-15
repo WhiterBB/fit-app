@@ -4,11 +4,14 @@ import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:myapp/auth.dart';
 import 'package:myapp/page-1/welcome.dart';
 import 'package:myapp/rootpage.dart';
-//import 'package:flutter/gestures.dart';
-//import 'dart:ui';
-//import 'package:google_fonts/google_fonts.dart';
 import 'package:myapp/utils.dart';
-//import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:pedometer/pedometer.dart';
+import 'dart:io';
+import 'dart:async';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:device_info_plus/device_info_plus.dart';
+
+String formatDate(DateTime d) => d.toString().substring(0, 19);
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -19,6 +22,60 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   final User? user = Auth().currentUser;
+  late Stream<StepCount> _stepCountStream;
+  String _steps = '?';
+
+  @override
+  void initState() {
+    super.initState();
+    initPlatformState();
+  }
+
+  void onStepCount(StepCount event) {
+    print('====> $event');
+    setState(() {
+      _steps = event.steps.toString();
+    });
+  }
+
+  void onStepCountError(error) {
+    print('onStepCountError $error');
+    setState(() {
+      _steps = 'Step Count not available';
+    });
+  }
+
+  Future<Permission> getMotionPermission() async {
+    if (Platform.isAndroid && await getAndroidSdk() >= 29) {
+      return Permission.activityRecognition;
+    } else {
+      return Permission.sensors;
+    }
+  }
+
+  Future<void> initPlatformState() async {
+    Permission motionPermission = await getMotionPermission();
+    if (!await motionPermission.isGranted) {
+      var newStatus = await motionPermission.request();
+      if (!newStatus.isGranted) return Future.error('Permission not granted');
+    }
+
+    
+    _stepCountStream = Pedometer.stepCountStream;
+    _stepCountStream.listen(onStepCount).onError(onStepCountError);
+    
+
+    if (!mounted) return;
+  }
+
+  Future<int> getAndroidSdk() async {
+    if (Platform.isAndroid) {
+      var androidInfo = await DeviceInfoPlugin().androidInfo;
+      var sdkInt = androidInfo.version.sdkInt;
+      return sdkInt;
+    }
+    return 0;
+  }
 
   Future<void> signOut() async {
     await Auth().signOut();
@@ -78,9 +135,9 @@ class _HomeState extends State<Home> {
                   Container(
                     // group3V21 (106:88)
                     margin: EdgeInsets.fromLTRB(
-                        25 * fem, 0 * fem, 26 * fem, 128 * fem),
+                        25 * fem, 0 * fem, 26 * fem, 60 * fem),
                     padding: EdgeInsets.fromLTRB(
-                        22 * fem, 44 * fem, 22 * fem, 102 * fem),
+                        22 * fem, 20 * fem, 22 * fem, 10 * fem),
                     width: double.infinity,
                     decoration: BoxDecoration(
                       color: const Color(0xff796988),
@@ -92,7 +149,7 @@ class _HomeState extends State<Home> {
                         Container(
                           // pasoshoyTsw (105:86)
                           margin: EdgeInsets.fromLTRB(
-                              0 * fem, 0 * fem, 0 * fem, 69 * fem),
+                              0 * fem, 0 * fem, 0 * fem, 10 * fem),
                           width: double.infinity,
                           child: Text(
                             'Pasos hoy',
@@ -102,6 +159,23 @@ class _HomeState extends State<Home> {
                               fontSize: 20 * ffem,
                               fontWeight: FontWeight.w700,
                               height: 1.3625 * ffem / fem,
+                              color: const Color(0xffffffff),
+                            ),
+                          ),
+                          
+                                                    
+                        ),
+                        Container(
+                          margin: EdgeInsets.fromLTRB(0*fem, 0*fem, 0*fem, 40*fem),
+                          width: double.infinity,
+                          child: Text(
+                            _steps,
+                            textAlign: TextAlign.left,
+                            style: SafeGoogleFont(
+                              'Nunito',
+                              fontSize: 20*ffem,
+                              fontWeight: FontWeight.w300,
+                              height: 1.3625 * ffem/fem,
                               color: const Color(0xffffffff),
                             ),
                           ),
@@ -117,6 +191,55 @@ class _HomeState extends State<Home> {
                               fontSize: 20 * ffem,
                               fontWeight: FontWeight.w600,
                               height: 1.3625 * ffem / fem,
+                              color: const Color(0xffffffff),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.fromLTRB(0*fem, 10*fem, 0*fem, 40*fem),
+                          width: double.infinity,
+                          child: Text(
+                            'Distancia',
+                            textAlign: TextAlign.left,
+                            style: SafeGoogleFont(
+                              'Nunito',
+                              fontSize: 20*ffem,
+                              fontWeight: FontWeight.w300,
+                              height: 1.3625 * ffem/fem,
+                              color: const Color(0xffffffff),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          // pasoshoyTsw (105:86)
+                          margin: EdgeInsets.fromLTRB(
+                              0 * fem, 0 * fem, 0 * fem, 10 * fem),
+                          width: double.infinity,
+                          child: Text(
+                            'Calorías quemadas',
+                            textAlign: TextAlign.left,
+                            style: SafeGoogleFont(
+                              'Nunito',
+                              fontSize: 20 * ffem,
+                              fontWeight: FontWeight.w700,
+                              height: 1.3625 * ffem / fem,
+                              color: const Color(0xffffffff),
+                            ),
+                          ),
+                          
+                                                    
+                        ),
+                        Container(
+                          margin: EdgeInsets.fromLTRB(0*fem, 0*fem, 0*fem, 20*fem),
+                          width: double.infinity,
+                          child: Text(
+                            'Calorías',
+                            textAlign: TextAlign.left,
+                            style: SafeGoogleFont(
+                              'Nunito',
+                              fontSize: 20*ffem,
+                              fontWeight: FontWeight.w300,
+                              height: 1.3625 * ffem/fem,
                               color: const Color(0xffffffff),
                             ),
                           ),
