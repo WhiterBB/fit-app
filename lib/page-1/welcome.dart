@@ -5,6 +5,7 @@ import 'package:myapp/page-1/signup.dart';
 //import 'package:google_fonts/google_fonts.dart';
 import 'package:myapp/utils.dart';
 
+
 class Welcome extends StatelessWidget {
   const Welcome({super.key});
 

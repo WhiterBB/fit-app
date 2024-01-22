@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:myapp/auth.dart';
+import 'package:myapp/page-1/information.dart';
 import 'package:myapp/page-1/welcome.dart';
 import 'package:myapp/rootpage.dart';
 import 'package:myapp/utils.dart';
@@ -135,7 +136,7 @@ class _HomeState extends State<Home> {
                   Container(
                     // group3V21 (106:88)
                     margin: EdgeInsets.fromLTRB(
-                        25 * fem, 0 * fem, 26 * fem, 60 * fem),
+                        25 * fem, 0 * fem, 26 * fem, 40 * fem),
                     padding: EdgeInsets.fromLTRB(
                         22 * fem, 20 * fem, 22 * fem, 10 * fem),
                     width: double.infinity,
@@ -250,7 +251,41 @@ class _HomeState extends State<Home> {
                   Container(
                     // group42ef (170:4)
                     margin: EdgeInsets.fromLTRB(
-                        126 * fem, 0 * fem, 126 * fem, 63 * fem),
+                        90 * fem, 0 * fem, 90 * fem, 20 * fem),
+                    width: double.infinity,
+                    height: 35 * fem,
+                    child: InkWell(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: const Color(0xff796988),
+                          borderRadius: BorderRadius.circular(20 * fem),
+                        ),
+                        child: Center(
+                          child: Text(
+                            'Actualizar Información',
+                            textAlign: TextAlign.center,
+                            style: SafeGoogleFont(
+                              'Nunito',
+                              fontSize: 14 * ffem,
+                              fontWeight: FontWeight.w600,
+                              height: 1.3625 * ffem / fem,
+                              color: const Color(0xffffffff),
+                            ),
+                          ),
+                        ),
+                      ),
+                      onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const UpdateInformation())),
+                      
+                    ),
+                    
+                  ),
+                  Container(
+                    // group42ef (170:4)
+                    margin: EdgeInsets.fromLTRB(
+                        126 * fem, 0 * fem, 126 * fem, 20 * fem),
                     width: double.infinity,
                     height: 35 * fem,
                     child: InkWell(
@@ -280,40 +315,7 @@ class _HomeState extends State<Home> {
                                 builder: (context) => const Welcome())),
                       ),
                     ),
-                    // Container(
-                    //   // autogroupclem6g1 (SWyYqz5SyoLVsJfybACLem)
-                    //   padding: EdgeInsets.fromLTRB(
-                    //       79 * fem, 15 * fem, 91 * fem, 50 * fem),
-                    //   width: double.infinity,
-                    //   height: 74 * fem,
-                    //   decoration: const BoxDecoration(
-                    //     color: Color(0xff080808),
-                    //   ),
-                    //   child: Row(
-                    //     crossAxisAlignment: CrossAxisAlignment.center,
-                    //     children: [
-                    //       Container(
-                    //         // Cj3 (108:5)
-                    //         margin: EdgeInsets.fromLTRB(
-                    //             0 * fem, 0 * fem, 147 * fem, 2 * fem),
-                    //         child: Icon(
-                    //           FontAwesomeIcons.home,
-                    //           size: 34 * ffem,
-                    //           color: Colors.white,
-                    //         ),
-                    //       ),
-                    //       Container(
-                    //         margin: EdgeInsets.fromLTRB(
-                    //             0 * fem, 0 * fem, 2 * fem, 2 * fem),
-                    //         child: Icon(
-                    //           FontAwesomeIcons.user,
-                    //           size: 34 * ffem,
-                    //           color: Colors.white,
-                    //         ),
-                    //       )
-                    //     ],
-                    //   ),
-                    // ),
+                    
                   )
                 ],
               ),
