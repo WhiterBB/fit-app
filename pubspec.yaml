@@ -47,6 +47,7 @@ dependencies:
   pedometer: ^4.0.1
   permission_handler: ^11.1.0
   device_info_plus: ^9.1.1
+  jiffy: ^6.2.1
 
 dev_dependencies:
   flutter_test:
@@ -82,7 +83,12 @@ flutter:
     - assets/page-1/images/image-1-bg.png
     - assets/page-1/images/image-1-bg-KWH.png
     - assets/page-1/images/image-1-bg-cb3.png
-    - assets/page-1/images/bg.jpg
+    - assets/page-1/images/bailar-removebg-preview-1.png
+    - assets/page-1/images/caminar-1.png
+    - assets/page-1/images/ciclismo-1.png
+    - assets/page-1/images/correr-removebg-preview-1.png
+    - assets/page-1/images/gimnasio-1.png
+    - assets/page-1/images/saltar-1.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

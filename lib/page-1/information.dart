@@ -15,32 +15,74 @@ class UpdateInformation extends StatefulWidget {
 }
 
 class _UpdateInformationState extends State<UpdateInformation> {
+
+  @override
+  void initState() {
+    //readCurrentUserInfo();
+    print("got data");
+    super.initState();
+  }
+
   String? errorMessage = '';
-  final TextEditingController _controllerName = TextEditingController();
-  final TextEditingController _controllerSurname = TextEditingController();
-  final TextEditingController _controllerGender = TextEditingController();
   final TextEditingController _controllerAge = TextEditingController();
   final TextEditingController _controllerWeight = TextEditingController();
-  final TextEditingController _controllerWeeklyActivity =
-      TextEditingController();
+  final TextEditingController _controllerHeight = TextEditingController();
+  final TextEditingController _controllerWeeklyActivity = TextEditingController();
   final _messageKey = GlobalKey<ScaffoldMessengerState>();
   final db = FirebaseFirestore.instance;
+  String? currentName;
+  String? currentSurname;
+  String? currentGender;
+  bool enabledForm = true;
+
+  // Future<void> test() async{
+  //   String uid = Auth().currentUser!.uid;
+  //   String addSome = _controllerName.text.trim();
+
+  //   db.collection("users").doc("${uid}").collection("col").doc("activityinfo").update({
+  //     'some' : addSome,
+  //     'uwu' : "uwu",
+  //   }).onError((error, stackTrace) => null);
+  // }
+
+  // Future<void> readCurrentUserInfo() async{
+  //   String uid = Auth().currentUser!.uid;
+    
+  //   print("getting data");
+
+  //   db.collection("users").doc("${uid}").get().then((DocumentSnapshot ds) async{
+  //     currentName = ds['name'];
+  //     currentSurname = ds['surname'];
+  //     currentGender = ds['gender'];
+  //   });
+  
+  // }
+
 
   Future<void> updateUserInfo() async {
     String uid = Auth().currentUser!.uid;
-    String name = _controllerName.text.trim();
-    String surname = _controllerSurname.text.trim();
-    String gender = _controllerGender.text.trim();
+    // String name = _controllerName.text.trim();
+    // String surname = _controllerSurname.text.trim();
+    // String gender = _controllerGender.text.trim();
     int age = int.parse(_controllerAge.text.trim());
     int weight = int.parse(_controllerWeight.text.trim());
+    int height = int.parse(_controllerHeight.text.trim());
     String weeklyactivity = _controllerWeeklyActivity.text.trim();
 
+    // print("fill current");
+    // if(currentName!= '' || currentSurname!= '' || currentGender!= ''){
+    //   name = currentName!;
+    //   surname = currentSurname!;
+    //   gender = currentGender!;
+    //   setState(() {
+    //     enabledForm = false;
+    //   });
+    // }
+
     db.collection("users").doc("${uid}").update({
-      'name': name,
-      'surname': surname,
-      'gender': gender,
       'age': age,
       'weight': weight,
+      'height': height,
       'weeklyactivity': weeklyactivity,
     }).onError((e, _) {
       setState(() {
@@ -98,7 +140,7 @@ class _UpdateInformationState extends State<UpdateInformation> {
                     Container(
                       // rectangle2qy3 (105:82)
                       margin: EdgeInsets.fromLTRB(
-                          0 * fem, 0 * fem, 0 * fem, 20 * fem),
+                          0 * fem, 50 * fem, 0 * fem, 20 * fem),
                       width: 89 * fem,
                       height: 84 * fem,
                       child: Image.asset(
@@ -109,7 +151,7 @@ class _UpdateInformationState extends State<UpdateInformation> {
                     Container(
                       // actividadBGD (105:85)
                       margin: EdgeInsets.fromLTRB(
-                          0 * fem, 0 * fem, 0 * fem, 13 * fem),
+                          0 * fem, 30 * fem, 0 * fem, 13 * fem),
                       child: Text(
                         'Actualizar Información',
                         textAlign: TextAlign.center,
@@ -136,71 +178,6 @@ class _UpdateInformationState extends State<UpdateInformation> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Container(
-                            // pasoshoyTsw (105:86)
-                            margin: EdgeInsets.fromLTRB(
-                                0 * fem, 0 * fem, 0 * fem, 20 * fem),
-                            width: double.infinity,
-                            child: TextField(
-                              controller: _controllerName,
-                              enableSuggestions: false,
-                              autocorrect: false,
-                              decoration: InputDecoration(
-                                hintText: 'Nombre',
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide:
-                                      const BorderSide(color: Colors.black),
-                                  borderRadius: BorderRadius.circular(6),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide: const BorderSide(
-                                      color: Colors.deepPurple),
-                                  borderRadius: BorderRadius.circular(6),
-                                ),
-                                //fillColor: Colors.grey[400],
-                                //filled: true,
-                              ),
-                              style: SafeGoogleFont(
-                                'Nunito',
-                                fontSize: 14 * ffem,
-                                fontWeight: FontWeight.w600,
-                                height: 1.3625 * ffem / fem,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-                          Container(
-                            margin: EdgeInsets.fromLTRB(
-                                0 * fem, 0 * fem, 0 * fem, 20 * fem),
-                            width: double.infinity,
-                            child: TextField(
-                              controller: _controllerSurname,
-                              enableSuggestions: false,
-                              autocorrect: false,
-                              decoration: InputDecoration(
-                                hintText: 'Apellido',
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide:
-                                      const BorderSide(color: Colors.black),
-                                  borderRadius: BorderRadius.circular(6),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide: const BorderSide(
-                                      color: Colors.deepPurple),
-                                  borderRadius: BorderRadius.circular(6),
-                                ),
-                                //fillColor: Colors.grey[400],
-                                //filled: true,
-                              ),
-                              style: SafeGoogleFont(
-                                'Nunito',
-                                fontSize: 14 * ffem,
-                                fontWeight: FontWeight.w600,
-                                height: 1.3625 * ffem / fem,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
                           Container(
                             margin: EdgeInsets.fromLTRB(
                                 0 * fem, 0 * fem, 0 * fem, 20 * fem),
@@ -238,11 +215,11 @@ class _UpdateInformationState extends State<UpdateInformation> {
                                 0 * fem, 0 * fem, 0 * fem, 20 * fem),
                             width: double.infinity,
                             child: TextField(
-                              controller: _controllerGender,
+                              controller: _controllerWeight,
                               enableSuggestions: false,
                               autocorrect: false,
                               decoration: InputDecoration(
-                                hintText: 'Género',
+                                hintText: 'Peso en KG',
                                 enabledBorder: OutlineInputBorder(
                                   borderSide:
                                       const BorderSide(color: Colors.black),
@@ -270,11 +247,11 @@ class _UpdateInformationState extends State<UpdateInformation> {
                                 0 * fem, 0 * fem, 0 * fem, 20 * fem),
                             width: double.infinity,
                             child: TextField(
-                              controller: _controllerWeight,
+                              controller: _controllerHeight,
                               enableSuggestions: false,
                               autocorrect: false,
                               decoration: InputDecoration(
-                                hintText: 'Peso en KG',
+                                hintText: 'Altura',
                                 enabledBorder: OutlineInputBorder(
                                   borderSide:
                                       const BorderSide(color: Colors.black),
@@ -336,7 +313,7 @@ class _UpdateInformationState extends State<UpdateInformation> {
                     Container(
                       // group42ef (170:4)
                       margin: EdgeInsets.fromLTRB(
-                          126 * fem, 0 * fem, 126 * fem, 63 * fem),
+                          126 * fem, 0 * fem, 126 * fem, 180 * fem),
                       width: double.infinity,
                       height: 30 * fem,
                       child: InkWell(
@@ -361,6 +338,7 @@ class _UpdateInformationState extends State<UpdateInformation> {
                         ),
                         onTap: () => updateUserInfo().then(
                           (value) {
+                            //test();
                             FirebaseAuth.instance
                                 .authStateChanges()
                                 .listen((user) {
@@ -388,7 +366,10 @@ class _UpdateInformationState extends State<UpdateInformation> {
           iconSize: 30,
           textSize: 30,
           gap: 20,
-          padding: EdgeInsets.fromLTRB(60, 25, 60, 25),
+          // onTabChange: () {
+          //   print(value);
+          // },
+          padding: EdgeInsets.fromLTRB(30, 25, 30, 25),
           tabs: [
             GButton(
               icon: Icons.home,
@@ -397,6 +378,10 @@ class _UpdateInformationState extends State<UpdateInformation> {
             GButton(
               icon: Icons.person,
               text: 'Profile',
+            ),
+            GButton(
+              icon: Icons.calculate,
+              text: 'Calories',
             ),
           ],
         ),

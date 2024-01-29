@@ -20,6 +20,9 @@ class _SignUpState extends State<SignUp> {
 
   final TextEditingController _controllerEmail = TextEditingController();
   final TextEditingController _controllerPassword = TextEditingController();
+  final TextEditingController _controllerName = TextEditingController();
+  final TextEditingController _controllerSurname = TextEditingController();
+  final TextEditingController _controllerGender = TextEditingController();
   final _messageKey = GlobalKey<ScaffoldMessengerState>();
   final db = FirebaseFirestore.instance;
 
@@ -63,6 +66,12 @@ class _SignUpState extends State<SignUp> {
   Future<void> firstUserAdd() async {
     String email = Auth().currentUser!.email.toString();
     String uid = Auth().currentUser!.uid;
+    String name = _controllerName.text.trim();
+    String surname = _controllerSurname.text.trim();
+    String gender = _controllerGender.text.trim();
+    int dailysteps = 0;
+    int calories = 0;
+    int lastdaysavedDB = 0;
 
     print("UID: $uid");
     print("Email: $email");
@@ -70,8 +79,24 @@ class _SignUpState extends State<SignUp> {
     db.collection("users").doc("${uid}").set({
       'email': email,
       'accountCreated': Timestamp.now(),
+      'name' : name,
+      'surname' : surname,
+      'gender' : gender,
+      'height' : 0,
     }).onError((e, _) => print("Error writing document: $e"));
     print("Created new account");
+    
+    db.collection("users").doc("${uid}").collection("col").doc("activityinfo").set({
+      'dailysteps': dailysteps,
+      'calories' : calories,
+      'lastdaysaved' : lastdaysavedDB,
+    }).onError((error, stackTrace) => null);
+
+    db.collection("users").doc("${uid}").collection("col").doc("activityinfo").collection("todaysteps").doc("todaysteps").set({
+      'todayDayNo': 0,
+      'todaySteps' : 0,
+    }).onError((error, stackTrace) => null);
+
   }
 
   // Widget _errorMessage() {
@@ -102,7 +127,7 @@ class _SignUpState extends State<SignUp> {
                 child: Container(
                   // signupjnH (104:48)
                   padding: EdgeInsets.fromLTRB(
-                      25 * fem, 94 * fem, 25 * fem, 38 * fem),
+                      25 * fem, 50 * fem, 25 * fem, 38 * fem),
                   width: double.infinity,
                   decoration: const BoxDecoration(
                     color: Color(0xffffffff),
@@ -119,7 +144,7 @@ class _SignUpState extends State<SignUp> {
                         Container(
                           // autogroup6f9kYUq (SWyYKzwQpbrkGgNXFH6f9K)
                           margin: EdgeInsets.fromLTRB(
-                              48 * fem, 0 * fem, 28 * fem, 144 * fem),
+                              48 * fem, 25 * fem, 28 * fem, 50 * fem),
                           padding: EdgeInsets.fromLTRB(
                               51 * fem, 0 * fem, 69 * fem, 0 * fem),
                           width: double.infinity,
@@ -138,7 +163,7 @@ class _SignUpState extends State<SignUp> {
                         Container(
                           // formoff (104:52)
                           padding: EdgeInsets.fromLTRB(
-                              40 * fem, 97 * fem, 39.74 * fem, 30.23 * fem),
+                              40 * fem, 25 * fem, 39.74 * fem, 30.23 * fem),
                           width: double.infinity,
                           decoration: BoxDecoration(
                             color: const Color(0xff796988),
@@ -150,7 +175,7 @@ class _SignUpState extends State<SignUp> {
                                 Container(
                                   // registroWa5 (104:57)
                                   margin: EdgeInsets.fromLTRB(
-                                      0.74 * fem, 0 * fem, 0 * fem, 72 * fem),
+                                      0.74 * fem, 0 * fem, 0 * fem, 50 * fem),
                                   child: Text(
                                     'Registro',
                                     style: SafeGoogleFont(
@@ -196,6 +221,69 @@ class _SignUpState extends State<SignUp> {
                                     autocorrect: false,
                                     decoration: const InputDecoration(
                                         hintText: 'Contraseña'),
+                                    style: SafeGoogleFont(
+                                      'Nunito',
+                                      fontSize: 14 * ffem,
+                                      fontWeight: FontWeight.w600,
+                                      height: 1.3625 * ffem / fem,
+                                      color: const Color(0xffcccccc),
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  // group1ct1 (104:61)
+                                  margin: EdgeInsets.fromLTRB(
+                                      0 * fem, 0 * fem, 0 * fem, 45.91 * fem),
+                                  width: double.infinity,
+                                  height: 23.09 * fem,
+                                  child: TextField(
+                                    controller: _controllerName,
+                                    enableSuggestions: false,
+                                    autocorrect: false,
+                                    decoration: const InputDecoration(
+                                        hintText: 'Nombre'),
+                                    style: SafeGoogleFont(
+                                      'Nunito',
+                                      fontSize: 14 * ffem,
+                                      fontWeight: FontWeight.w600,
+                                      height: 1.3625 * ffem / fem,
+                                      color: const Color(0xffcccccc),
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  // group1ct1 (104:61)
+                                  margin: EdgeInsets.fromLTRB(
+                                      0 * fem, 0 * fem, 0 * fem, 45.91 * fem),
+                                  width: double.infinity,
+                                  height: 23.09 * fem,
+                                  child: TextField(
+                                    controller: _controllerSurname,
+                                    enableSuggestions: false,
+                                    autocorrect: false,
+                                    decoration: const InputDecoration(
+                                        hintText: 'Apellido'),
+                                    style: SafeGoogleFont(
+                                      'Nunito',
+                                      fontSize: 14 * ffem,
+                                      fontWeight: FontWeight.w600,
+                                      height: 1.3625 * ffem / fem,
+                                      color: const Color(0xffcccccc),
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  // group1ct1 (104:61)
+                                  margin: EdgeInsets.fromLTRB(
+                                      0 * fem, 0 * fem, 0 * fem, 45.91 * fem),
+                                  width: double.infinity,
+                                  height: 23.09 * fem,
+                                  child: TextField(
+                                    controller: _controllerGender,
+                                    enableSuggestions: false,
+                                    autocorrect: false,
+                                    decoration: const InputDecoration(
+                                        hintText: 'Género'),
                                     style: SafeGoogleFont(
                                       'Nunito',
                                       fontSize: 14 * ffem,
