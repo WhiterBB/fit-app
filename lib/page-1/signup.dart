@@ -72,6 +72,7 @@ class _SignUpState extends State<SignUp> {
     int dailysteps = 0;
     int calories = 0;
     int lastdaysavedDB = 0;
+    int totalsteps = 0;
 
     print("UID: $uid");
     print("Email: $email");
@@ -90,11 +91,7 @@ class _SignUpState extends State<SignUp> {
       'dailysteps': dailysteps,
       'calories' : calories,
       'lastdaysaved' : lastdaysavedDB,
-    }).onError((error, stackTrace) => null);
-
-    db.collection("users").doc("${uid}").collection("col").doc("activityinfo").collection("todaysteps").doc("todaysteps").set({
-      'todayDayNo': 0,
-      'todaySteps' : 0,
+      'totalsteps' : totalsteps,
     }).onError((error, stackTrace) => null);
 
   }
