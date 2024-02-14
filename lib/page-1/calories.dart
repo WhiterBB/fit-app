@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:myapp/auth.dart';
 import 'package:myapp/page-1/home.dart';
-import 'package:myapp/page-1/signup.dart';
+import 'package:myapp/page-1/posts.dart';
 import 'package:myapp/utils.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
@@ -33,8 +33,7 @@ class _CaloriesActivityState extends State<CaloriesActivity> {
   final TextEditingController _controllerWalking = TextEditingController();
   final TextEditingController _controllerRunning = TextEditingController();
   final TextEditingController _controllerCycling = TextEditingController();
-  final TextEditingController _controllerWeightlifting =
-      TextEditingController();
+  final TextEditingController _controllerWeightlifting = TextEditingController();
   final TextEditingController _controllerJumping = TextEditingController();
   final TextEditingController _controllerDancing = TextEditingController();
   final db = FirebaseFirestore.instance;
@@ -48,7 +47,7 @@ class _CaloriesActivityState extends State<CaloriesActivity> {
 
     db
         .collection("users")
-        .doc("${uid}")
+        .doc(uid)
         .get()
         .then((DocumentSnapshot ds) async {
       age = ds['age'];
@@ -68,16 +67,16 @@ class _CaloriesActivityState extends State<CaloriesActivity> {
   Future openDialogWalking() => showDialog(
       context: context,
       builder: ((context) => AlertDialog(
-            title: Text('Minutos Caminando'),
+            title: const Text('Minutos Caminando'),
             content: TextField(
               keyboardType: TextInputType.number,
               autofocus: true,
-              decoration: InputDecoration(hintText: 'Minutos'),
+              decoration: const InputDecoration(hintText: 'Minutos'),
               controller: _controllerWalking,
             ),
             actions: [
               TextButton(
-                child: Text('OK'),
+                child: const Text('OK'),
                 onPressed: () {
                   submit();
                   setState(() {
@@ -92,16 +91,16 @@ class _CaloriesActivityState extends State<CaloriesActivity> {
   Future openDialogRunning() => showDialog(
       context: context,
       builder: ((context) => AlertDialog(
-            title: Text('Minutos Corriendo'),
+            title: const Text('Minutos Corriendo'),
             content: TextField(
               keyboardType: TextInputType.number,
               autofocus: true,
-              decoration: InputDecoration(hintText: 'Corriendo'),
+              decoration: const InputDecoration(hintText: 'Corriendo'),
               controller: _controllerRunning,
             ),
             actions: [
               TextButton(
-                child: Text('OK'),
+                child: const Text('OK'),
                 onPressed: () {
                   submit();
                   setState(() {
@@ -116,16 +115,16 @@ class _CaloriesActivityState extends State<CaloriesActivity> {
   Future openDialogCycling() => showDialog(
       context: context,
       builder: ((context) => AlertDialog(
-            title: Text('Minutos en Bicicleta'),
+            title: const Text('Minutos en Bicicleta'),
             content: TextField(
               keyboardType: TextInputType.number,
               autofocus: true,
-              decoration: InputDecoration(hintText: 'Bicicleta'),
+              decoration: const InputDecoration(hintText: 'Bicicleta'),
               controller: _controllerCycling,
             ),
             actions: [
               TextButton(
-                child: Text('OK'),
+                child: const Text('OK'),
                 onPressed: () {
                   submit();
                   setState(() {
@@ -140,16 +139,16 @@ class _CaloriesActivityState extends State<CaloriesActivity> {
   Future openDialogWeightlifting() => showDialog(
       context: context,
       builder: ((context) => AlertDialog(
-            title: Text('Minutos Pesas'),
+            title: const Text('Minutos Pesas'),
             content: TextField(
               keyboardType: TextInputType.number,
               autofocus: true,
-              decoration: InputDecoration(hintText: 'Pesas'),
+              decoration: const InputDecoration(hintText: 'Pesas'),
               controller: _controllerWeightlifting,
             ),
             actions: [
               TextButton(
-                child: Text('OK'),
+                child: const Text('OK'),
                 onPressed: () {
                   submit();
                   setState(() {
@@ -165,16 +164,16 @@ class _CaloriesActivityState extends State<CaloriesActivity> {
   Future openDialogJumping() => showDialog(
       context: context,
       builder: ((context) => AlertDialog(
-            title: Text('Minutos saltando'),
+            title: const Text('Minutos saltando'),
             content: TextField(
               keyboardType: TextInputType.number,
               autofocus: true,
-              decoration: InputDecoration(hintText: 'Saltando'),
+              decoration: const InputDecoration(hintText: 'Saltando'),
               controller: _controllerJumping,
             ),
             actions: [
               TextButton(
-                child: Text('OK'),
+                child: const Text('OK'),
                 onPressed: () {
                   submit();
                   setState(() {
@@ -189,16 +188,16 @@ class _CaloriesActivityState extends State<CaloriesActivity> {
   Future openDialogDancing() => showDialog(
       context: context,
       builder: ((context) => AlertDialog(
-            title: Text('Minutos Bailando'),
+            title: const Text('Minutos Bailando'),
             content: TextField(
               keyboardType: TextInputType.number,
               autofocus: true,
-              decoration: InputDecoration(hintText: 'Bailar'),
+              decoration: const InputDecoration(hintText: 'Bailar'),
               controller: _controllerDancing,
             ),
             actions: [
               TextButton(
-                child: Text('OK'),
+                child: const Text('OK'),
                 onPressed: () {
                   submit();
                   setState(() {
@@ -224,7 +223,7 @@ class _CaloriesActivityState extends State<CaloriesActivity> {
             padding:
                 EdgeInsets.fromLTRB(23 * fem, 11 * fem, 21 * fem, 134 * fem),
             width: double.infinity,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: Color(0xff000000),
             ),
             child: Column(
@@ -253,7 +252,7 @@ class _CaloriesActivityState extends State<CaloriesActivity> {
                       fontSize: 24 * ffem,
                       fontWeight: FontWeight.w900,
                       height: 1.3625 * ffem / fem,
-                      color: Color(0xffcccccc),
+                      color: const Color(0xffcccccc),
                     ),
                   ),
                 ),
@@ -265,7 +264,7 @@ class _CaloriesActivityState extends State<CaloriesActivity> {
                       23 * fem, 22 * fem, 23 * fem, 38 * fem),
                   width: double.infinity,
                   decoration: BoxDecoration(
-                    color: Color(0xff796988),
+                    color: const Color(0xff796988),
                     borderRadius: BorderRadius.circular(20 * fem),
                   ),
                   child: Column(
@@ -282,19 +281,19 @@ class _CaloriesActivityState extends State<CaloriesActivity> {
                             fontSize: 20 * ffem,
                             fontWeight: FontWeight.w700,
                             height: 1.3625 * ffem / fem,
-                            color: Color(0xffffffff),
+                            color: const Color(0xffffffff),
                           ),
                         ),
                       ),
                       Text(
                         // totalcaloriasHns (192:16)
-                        calculateCalories().toString(),
+                        calculateCalories().toStringAsFixed(1),
                         style: SafeGoogleFont(
                           'Nunito',
                           fontSize: 20 * ffem,
                           fontWeight: FontWeight.w600,
                           height: 1.3625 * ffem / fem,
-                          color: Color(0xffffffff),
+                          color: const Color(0xffffffff),
                         ),
                       ),
                     ],
@@ -312,6 +311,7 @@ class _CaloriesActivityState extends State<CaloriesActivity> {
                       Container(
                         // group7wcX (195:36)
                         child: InkWell(
+                          onTap: openDialogWalking,
                           child: Container(
                             margin: EdgeInsets.fromLTRB(
                                 0 * fem, 0 * fem, 47 * fem, 0 * fem),
@@ -319,7 +319,7 @@ class _CaloriesActivityState extends State<CaloriesActivity> {
                                 24 * fem, 9 * fem, 23 * fem, 10 * fem),
                             height: double.infinity,
                             decoration: BoxDecoration(
-                              color: Color(0xff796988),
+                              color: const Color(0xff796988),
                               borderRadius: BorderRadius.circular(20 * fem),
                             ),
                             child: Center(
@@ -334,18 +334,18 @@ class _CaloriesActivityState extends State<CaloriesActivity> {
                               ),
                             ),
                           ),
-                          onTap: openDialogWalking,
                         ),
                       ),
                       Container(
                         child: InkWell(
+                          onTap: openDialogRunning,
                           child: Container(
                             // group8zUK (195:40)
                             padding: EdgeInsets.fromLTRB(
                                 24 * fem, 9 * fem, 23 * fem, 10 * fem),
                             height: double.infinity,
                             decoration: BoxDecoration(
-                              color: Color(0xff796988),
+                              color: const Color(0xff796988),
                               borderRadius: BorderRadius.circular(20 * fem),
                             ),
                             child: Center(
@@ -360,7 +360,6 @@ class _CaloriesActivityState extends State<CaloriesActivity> {
                               ),
                             ),
                           ),
-                          onTap: openDialogRunning,
                         ),
                       ),
                     ],
@@ -376,6 +375,7 @@ class _CaloriesActivityState extends State<CaloriesActivity> {
                     children: [
                       Container(
                         child: InkWell(
+                          onTap: openDialogCycling,
                           child: Container(
                             // group9AXD (195:41)
                             margin: EdgeInsets.fromLTRB(
@@ -384,7 +384,7 @@ class _CaloriesActivityState extends State<CaloriesActivity> {
                                 22 * fem, 10 * fem, 25 * fem, 9 * fem),
                             height: double.infinity,
                             decoration: BoxDecoration(
-                              color: Color(0xff796988),
+                              color: const Color(0xff796988),
                               borderRadius: BorderRadius.circular(20 * fem),
                             ),
                             child: Center(
@@ -399,18 +399,18 @@ class _CaloriesActivityState extends State<CaloriesActivity> {
                               ),
                             ),
                           ),
-                          onTap: openDialogCycling,
                         ),
                       ),
                       Container(
                         child: InkWell(
+                          onTap: openDialogWeightlifting,
                           child: Container(
                             // group10yzT (195:43)
                             padding: EdgeInsets.fromLTRB(
                                 24 * fem, 10 * fem, 23 * fem, 9 * fem),
                             height: double.infinity,
                             decoration: BoxDecoration(
-                              color: Color(0xff796988),
+                              color: const Color(0xff796988),
                               borderRadius: BorderRadius.circular(20 * fem),
                             ),
                             child: Center(
@@ -425,7 +425,6 @@ class _CaloriesActivityState extends State<CaloriesActivity> {
                               ),
                             ),
                           ),
-                          onTap: openDialogWeightlifting,
                         ),
                       ),
                     ],
@@ -442,6 +441,7 @@ class _CaloriesActivityState extends State<CaloriesActivity> {
                     children: [
                       Container(
                         child: InkWell(
+                          onTap: openDialogJumping,
                           child: Container(
                             // group11wZu (195:45)
                             margin: EdgeInsets.fromLTRB(
@@ -450,7 +450,7 @@ class _CaloriesActivityState extends State<CaloriesActivity> {
                                 22 * fem, 10 * fem, 25 * fem, 9 * fem),
                             height: double.infinity,
                             decoration: BoxDecoration(
-                              color: Color(0xff796988),
+                              color: const Color(0xff796988),
                               borderRadius: BorderRadius.circular(20 * fem),
                             ),
                             child: Center(
@@ -465,18 +465,18 @@ class _CaloriesActivityState extends State<CaloriesActivity> {
                               ),
                             ),
                           ),
-                          onTap: openDialogJumping,
                         ),
                       ),
                       Container(
                         child: InkWell(
+                          onTap: openDialogDancing,
                           child: Container(
                             // group12b8f (195:47)
                             padding: EdgeInsets.fromLTRB(
                                 24 * fem, 10 * fem, 23 * fem, 9 * fem),
                             height: double.infinity,
                             decoration: BoxDecoration(
-                              color: Color(0xff796988),
+                              color: const Color(0xff796988),
                               borderRadius: BorderRadius.circular(20 * fem),
                             ),
                             child: Center(
@@ -491,7 +491,6 @@ class _CaloriesActivityState extends State<CaloriesActivity> {
                               ),
                             ),
                           ),
-                          onTap: openDialogDancing,
                         ),
                       ),
                     ],
@@ -513,7 +512,7 @@ class _CaloriesActivityState extends State<CaloriesActivity> {
                         width: 107 * fem,
                         height: double.infinity,
                         decoration: BoxDecoration(
-                          color: Color(0xff796988),
+                          color: const Color(0xff796988),
                           borderRadius: BorderRadius.circular(20 * fem),
                         ),
                         child: Center(
@@ -525,7 +524,7 @@ class _CaloriesActivityState extends State<CaloriesActivity> {
                               fontSize: 14 * ffem,
                               fontWeight: FontWeight.w600,
                               height: 1.3625 * ffem / fem,
-                              color: Color(0xffffffff),
+                              color: const Color(0xffffffff),
                             ),
                           ),
                         ),
@@ -535,7 +534,7 @@ class _CaloriesActivityState extends State<CaloriesActivity> {
                         width: 107 * fem,
                         height: double.infinity,
                         decoration: BoxDecoration(
-                          color: Color(0xff796988),
+                          color: const Color(0xff796988),
                           borderRadius: BorderRadius.circular(20 * fem),
                         ),
                         child: Center(
@@ -547,7 +546,7 @@ class _CaloriesActivityState extends State<CaloriesActivity> {
                               fontSize: 14 * ffem,
                               fontWeight: FontWeight.w600,
                               height: 1.3625 * ffem / fem,
-                              color: Color(0xffffffff),
+                              color: const Color(0xffffffff),
                             ),
                           ),
                         ),
@@ -560,14 +559,14 @@ class _CaloriesActivityState extends State<CaloriesActivity> {
           ),
         ),
         bottomNavigationBar: GNav(
-          backgroundColor: Color.fromRGBO(9, 9, 9, 1),
+          backgroundColor: const Color.fromRGBO(9, 9, 9, 1),
           color: Colors.white70,
           activeColor: Colors.white,
-          tabBackgroundColor: Color.fromRGBO(66, 66, 66, 1),
+          tabBackgroundColor: const Color.fromRGBO(66, 66, 66, 1),
           iconSize: 30,
           textSize: 30,
           gap: 20,
-          padding: EdgeInsets.fromLTRB(30, 25, 30, 25),
+          padding: const EdgeInsets.fromLTRB(30, 25, 30, 25),
           selectedIndex: _selectedIndex,
           onTabChange: (index) {
             setState(() {
@@ -576,12 +575,15 @@ class _CaloriesActivityState extends State<CaloriesActivity> {
               if (_selectedIndex == 0) {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => const Home()));
-              } else if (_selectedIndex == 2) {
+              } else if (_selectedIndex == 1) {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const PostsPage()));
+              }else if (_selectedIndex == 2) {
                 print("Same Page");
               }
             });
           },
-          tabs: [
+          tabs: const [
             GButton(
               icon: Icons.home,
               text: 'Home',
