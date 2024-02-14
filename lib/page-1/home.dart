@@ -5,6 +5,7 @@ import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:myapp/auth.dart';
 import 'package:myapp/page-1/calories.dart';
 import 'package:myapp/page-1/information.dart';
+import 'package:myapp/page-1/posts.dart';
 import 'package:myapp/page-1/welcome.dart';
 import 'package:myapp/rootpage.dart';
 import 'package:myapp/utils.dart';
@@ -33,11 +34,14 @@ class _HomeState extends State<Home> {
   int savedStepsCount = 0;
   int lastdaySaved = 0;
   int todaySteps = 0;
+  int weight = 0;
+  //String _distance = '0';
 
   @override
   void initState() {
     super.initState();
     initPlatformState();
+    getDistance(_steps);
   }
 
   void onStepCount(StepCount event) {
@@ -50,7 +54,7 @@ class _HomeState extends State<Home> {
   void onStepCountError(error) {
     print('onStepCountError $error');
     setState(() {
-      //_steps = 'Step Count not available';
+      _steps = 'Step Count not available';
     });
   }
 
@@ -85,16 +89,96 @@ class _HomeState extends State<Home> {
   }
 
   Future<void> signOut() async {
+    String uid = user!.uid;
+    await db
+        .collection("users")
+        .doc("${uid}")
+        .collection("col")
+        .doc("activityinfo")
+        .update({
+      'totalsteps': savedStepsCount,
+    });
+
     await Auth().signOut();
     setState(() {
       AuthStatus.notSignedIn;
     });
   }
 
-  Future<int> getTodaySteps(int value) async {
-    String uid = user!.uid;
+  void postMessage() {
+    String finalmessage = "Hoy he dado $todaySteps pasos.";
+    db.collection("usersPosts").add({
+      'UserEmail': user!.email,
+      'Message': finalmessage,
+      'TimeStamp': Timestamp.now(),
+    });
+  }
 
-    db
+  getDistance(String steps) async {
+    int stepsEnter = int.parse(steps);
+    double distance = stepsEnter * 0.000762;
+
+    // setState(() {
+    //   _distance = distance.toString();
+    // });
+    return Container(
+      margin: const EdgeInsets.fromLTRB(0, 10, 0, 40),
+      width: double.infinity,
+      child: Text(
+        distance.toStringAsFixed(3),
+        textAlign: TextAlign.left,
+        style: SafeGoogleFont(
+          'Nunito',
+          fontSize: 20,
+          fontWeight: FontWeight.w300,
+          height: 1.3625,
+          color: const Color(0xffffffff),
+        ),
+      ),
+    );
+  }
+
+  getCaloriesBurnt(String steps) async {
+    String uid = user!.uid;
+    int stepEnter = int.parse(steps);
+    double distance = stepEnter * 0.000762;
+    double caloriesburnt = 0;
+
+    await db
+        .collection("users")
+        .doc("${uid}")
+        .get()
+        .then((DocumentSnapshot ds) async {
+      weight = ds['weight'];
+    });
+    print('W> $weight');
+
+    caloriesburnt = weight * distance * 1.03;
+
+    print('CB > $caloriesburnt');
+
+    return Container(
+      margin: const EdgeInsets.fromLTRB(0, 0, 0, 20),
+      width: double.infinity,
+      child: Text(
+        caloriesburnt.toStringAsFixed(1),
+        textAlign: TextAlign.left,
+        style: SafeGoogleFont(
+          'Nunito',
+          fontSize: 20,
+          fontWeight: FontWeight.w300,
+          height: 1.3625,
+          color: const Color(0xffffffff),
+        ),
+      ),
+    );
+  }
+
+  getTodaySteps(int value) async {
+    String uid = user!.uid;
+    //print(value);
+
+    await db
         .collection("users")
         .doc("${uid}")
         .collection("col")
@@ -103,11 +187,12 @@ class _HomeState extends State<Home> {
         .then((DocumentSnapshot ds) async {
       savedStepsCount = ds['totalsteps'];
     });
+    //print(savedStepsCount);
 
     int todayDayNo = Jiffy.now().dayOfYear;
     if (value < savedStepsCount) {
       savedStepsCount = 0;
-      db
+      await db
           .collection("users")
           .doc("${uid}")
           .collection("col")
@@ -116,8 +201,9 @@ class _HomeState extends State<Home> {
         'totalsteps': savedStepsCount,
       });
     }
+    print('Value after $value');
 
-    db
+    await db
         .collection("users")
         .doc("${uid}")
         .collection("col")
@@ -127,11 +213,11 @@ class _HomeState extends State<Home> {
       lastdaySaved = ds['lastdaysaved'];
     });
 
-    if(lastdaySaved < todayDayNo){
+    if (lastdaySaved < todayDayNo) {
       lastdaySaved = todayDayNo;
       savedStepsCount = value;
 
-      db
+      await db
           .collection("users")
           .doc("${uid}")
           .collection("col")
@@ -140,36 +226,46 @@ class _HomeState extends State<Home> {
         'lastdaysaved': lastdaySaved,
         'totalsteps': savedStepsCount,
       });
-
-      setState(() {
-        todaySteps = value - savedStepsCount;
-      });
     }
+    todaySteps = value - savedStepsCount;
+
     db
-          .collection("users")
-          .doc("${uid}")
-          .collection("col")
-          .doc("activityinfo")
-          .collection("todaysteps")
-          .doc()
-          .update({
-        'todayDayNo': todayDayNo,
-        'todaySteps': todaySteps,
-      });
-    return todaySteps;
+        .collection("users")
+        .doc("${uid}")
+        .collection("col")
+        .doc("activityinfo")
+        .collection("todaysteps")
+        .doc('$todayDayNo')
+        .set({
+      'todayDayNo': todayDayNo,
+      'todaySteps': todaySteps,
+    });
+
+    return Container(
+      margin: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+      width: double.infinity,
+      child: Text(
+        todaySteps.toString(),
+        textAlign: TextAlign.left,
+        style: SafeGoogleFont(
+          'Nunito',
+          fontSize: 20,
+          fontWeight: FontWeight.w300,
+          height: 1.3625,
+          color: const Color(0xffffffff),
+        ),
+      ),
+    );
   }
 
-  void _navigateBottomBar(int index){
+  void _navigateBottomBar(int index) {
     setState(() {
       _selectedIndex = index;
     });
-    if(_selectedIndex == 0){
-     
-    }else if(_selectedIndex == 1){
-      Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const CaloriesActivity()));
+    if (_selectedIndex == 0) {
+    } else if (_selectedIndex == 1) {
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => const CaloriesActivity()));
     }
   }
 
@@ -197,7 +293,7 @@ class _HomeState extends State<Home> {
                   Container(
                     // rectangle2qy3 (105:82)
                     margin: EdgeInsets.fromLTRB(
-                        0 * fem, 0 * fem, 0 * fem, 49 * fem),
+                        0 * fem, 0 * fem, 0 * fem, 10 * fem),
                     width: 89 * fem,
                     height: 84 * fem,
                     child: Image.asset(
@@ -224,7 +320,7 @@ class _HomeState extends State<Home> {
                   Container(
                     // group3V21 (106:88)
                     margin: EdgeInsets.fromLTRB(
-                        25 * fem, 0 * fem, 26 * fem, 40 * fem),
+                        25 * fem, 0 * fem, 26 * fem, 20 * fem),
                     padding: EdgeInsets.fromLTRB(
                         22 * fem, 20 * fem, 22 * fem, 10 * fem),
                     width: double.infinity,
@@ -252,23 +348,36 @@ class _HomeState extends State<Home> {
                             ),
                           ),
                         ),
+
+                        FutureBuilder(
+                            future: getTodaySteps(int.parse(_steps)),
+                            builder:
+                                (BuildContext context, AsyncSnapshot snapshot) {
+                              if (snapshot.hasData) {
+                                return snapshot.data!;
+                                //if(snapshot.connectionState == ConnectionState.waiting){
+                                //  return snapshot.data!;
+                              } else {
+                                return CircularProgressIndicator();
+                              }
+                            }),
                         Container(
                           margin: EdgeInsets.fromLTRB(
                               0 * fem, 0 * fem, 0 * fem, 40 * fem),
                           width: double.infinity,
-                          child: Text(
-                            //getTodaySteps(int.parse(_steps)).toString(),
-                            //'uwu',
-                            _steps,
-                            textAlign: TextAlign.left,
-                            style: SafeGoogleFont(
-                              'Nunito',
-                              fontSize: 20 * ffem,
-                              fontWeight: FontWeight.w300,
-                              height: 1.3625 * ffem / fem,
-                              color: const Color(0xffffffff),
-                            ),
-                          ),
+                          // child: Text(
+                          //   //getTodaySteps(int.parse(_steps)).toString(),
+                          //   //'uwu',
+                          //   _steps,
+                          //   textAlign: TextAlign.left,
+                          //   style: SafeGoogleFont(
+                          //     'Nunito',
+                          //     fontSize: 20 * ffem,
+                          //     fontWeight: FontWeight.w300,
+                          //     height: 1.3625 * ffem / fem,
+                          //     color: const Color(0xffffffff),
+                          //   ),
+                          // ),
                         ),
                         SizedBox(
                           // distanciarecorridamtd (105:87)
@@ -285,22 +394,32 @@ class _HomeState extends State<Home> {
                             ),
                           ),
                         ),
-                        Container(
-                          margin: EdgeInsets.fromLTRB(
-                              0 * fem, 10 * fem, 0 * fem, 40 * fem),
-                          width: double.infinity,
-                          child: Text(
-                            'Distancia',
-                            textAlign: TextAlign.left,
-                            style: SafeGoogleFont(
-                              'Nunito',
-                              fontSize: 20 * ffem,
-                              fontWeight: FontWeight.w300,
-                              height: 1.3625 * ffem / fem,
-                              color: const Color(0xffffffff),
-                            ),
-                          ),
-                        ),
+                        // Container(
+                        //   margin: EdgeInsets.fromLTRB(
+                        //       0 * fem, 10 * fem, 0 * fem, 40 * fem),
+                        //   width: double.infinity,
+
+                        FutureBuilder(
+                            future: getDistance(todaySteps.toString()),
+                            builder:
+                                (BuildContext context, AsyncSnapshot snapshot) {
+                              if (snapshot.hasData) {
+                                return snapshot.data!;
+                              } else {
+                                return CircularProgressIndicator();
+                              }
+                            }),
+                        //'Distancia',
+                        //     textAlign: TextAlign.left,
+                        //     style: SafeGoogleFont(
+                        //       'Nunito',
+                        //       fontSize: 20 * ffem,
+                        //       fontWeight: FontWeight.w300,
+                        //       height: 1.3625 * ffem / fem,
+                        //       color: const Color(0xffffffff),
+                        //     ),
+                        //   ),
+                        // ),
                         Container(
                           // pasoshoyTsw (105:86)
                           margin: EdgeInsets.fromLTRB(
@@ -318,23 +437,62 @@ class _HomeState extends State<Home> {
                             ),
                           ),
                         ),
-                        Container(
-                          margin: EdgeInsets.fromLTRB(
-                              0 * fem, 0 * fem, 0 * fem, 20 * fem),
-                          width: double.infinity,
+                        // Container(
+                        //   margin: EdgeInsets.fromLTRB(
+                        //       0 * fem, 0 * fem, 0 * fem, 20 * fem),
+                        //   width: double.infinity,
+                        //   child: Text(
+                        //     'Calorías',
+                        //     textAlign: TextAlign.left,
+                        //     style: SafeGoogleFont(
+                        //       'Nunito',
+                        //       fontSize: 20 * ffem,
+                        //       fontWeight: FontWeight.w300,
+                        //       height: 1.3625 * ffem / fem,
+                        //       color: const Color(0xffffffff),
+                        //     ),
+                        //   ),
+                        // ),
+                        FutureBuilder(
+                            future: getCaloriesBurnt(todaySteps.toString()),
+                            builder:
+                                (BuildContext context, AsyncSnapshot snapshot) {
+                              if (snapshot.hasData) {
+                                return snapshot.data!;
+                              } else {
+                                return CircularProgressIndicator();
+                              }
+                            }),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    // group42ef (170:4)
+                    margin: EdgeInsets.fromLTRB(
+                        90 * fem, 0 * fem, 90 * fem, 20 * fem),
+                    width: double.infinity,
+                    height: 35 * fem,
+                    child: InkWell(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: const Color(0xff796988),
+                          borderRadius: BorderRadius.circular(20 * fem),
+                        ),
+                        child: Center(
                           child: Text(
-                            'Calorías',
-                            textAlign: TextAlign.left,
+                            'Compartir',
+                            textAlign: TextAlign.center,
                             style: SafeGoogleFont(
                               'Nunito',
-                              fontSize: 20 * ffem,
-                              fontWeight: FontWeight.w300,
+                              fontSize: 14 * ffem,
+                              fontWeight: FontWeight.w600,
                               height: 1.3625 * ffem / fem,
                               color: const Color(0xffffffff),
                             ),
                           ),
                         ),
-                      ],
+                      ),
+                      onTap: () => postMessage(),
                     ),
                   ),
                   Container(
@@ -402,50 +560,85 @@ class _HomeState extends State<Home> {
                                 builder: (context) => const Welcome())),
                       ),
                     ),
-                  )
+                  ),
+                  // Container(
+                  //   // group4bwH (192:4)
+                  //   margin: EdgeInsets.fromLTRB(
+                  //       126 * fem, 0 * fem, 126 * fem, 20 * fem),
+                  //   width: 107 * fem,
+                  //   height: double.infinity,
+                  //   child: InkWell(
+                  //     child: Container(
+                  //       decoration: BoxDecoration(
+                  //         color: const Color(0xff796988),
+                  //         borderRadius: BorderRadius.circular(20 * fem),
+                  //       ),
+                  //       child: Center(
+                  //         child: Text(
+                  //           'Compartir',
+                  //           textAlign: TextAlign.center,
+                  //           style: SafeGoogleFont(
+                  //             'Nunito',
+                  //             fontSize: 14 * ffem,
+                  //             fontWeight: FontWeight.w600,
+                  //             height: 1.3625 * ffem / fem,
+                  //             color: const Color(0xffffffff),
+                  //           ),
+                  //         ),
+                  //       ),
+                  //     ),
+                  //     onTap: () => postMessage(),
+                  //   ),
+                  // ),
                 ],
               ),
             ),
           ),
         ),
         bottomNavigationBar: //BottomNavigationBar(
-        //   currentIndex: _selectedIndex,
-        //   //backgroundColor: Colors.blueAccent,
-        //   backgroundColor: Color.fromRGBO(9, 9, 9, 1),
-        //   unselectedItemColor: Colors.white70,
-        //   //selectedIconTheme: IconThemeData(color: Colors.white),
-        //   selectedItemColor: Colors.white,
-        //   iconSize: 30,
-        //   type: BottomNavigationBarType.fixed,
-        //   onTap: _navigateBottomBar,
-        //   items: [
-        //     BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-        //     BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
-        //     BottomNavigationBarItem(icon: Icon(Icons.calculate), label: 'Calories'),
-        //   ],
-        // )
-        GNav(
-          backgroundColor: Color.fromRGBO(9, 9, 9, 1),
+            //   currentIndex: _selectedIndex,
+            //   //backgroundColor: Colors.blueAccent,
+            //   backgroundColor: Color.fromRGBO(9, 9, 9, 1),
+            //   unselectedItemColor: Colors.white70,
+            //   //selectedIconTheme: IconThemeData(color: Colors.white),
+            //   selectedItemColor: Colors.white,
+            //   iconSize: 30,
+            //   type: BottomNavigationBarType.fixed,
+            //   onTap: _navigateBottomBar,
+            //   items: [
+            //     BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+            //     BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
+            //     BottomNavigationBarItem(icon: Icon(Icons.calculate), label: 'Calories'),
+            //   ],
+            // )
+            GNav(
+          backgroundColor: const Color.fromRGBO(9, 9, 9, 1),
           color: Colors.white70,
           activeColor: Colors.white,
-          tabBackgroundColor: Color.fromRGBO(66, 66, 66, 1),
+          tabBackgroundColor: const Color.fromRGBO(66, 66, 66, 1),
           iconSize: 30,
           textSize: 30,
           gap: 20,
-          padding: EdgeInsets.fromLTRB(30, 25, 30, 25),
+          padding: const EdgeInsets.fromLTRB(30, 25, 30, 25),
           selectedIndex: _selectedIndex,
-          onTabChange: (index){
+          onTabChange: (index) {
             setState(() {
               _selectedIndex = index;
               print(_selectedIndex);
-              if(_selectedIndex == 2){
-                Navigator.push(context, MaterialPageRoute(builder: (context) => const CaloriesActivity()));
-              }else if(_selectedIndex == 0){
+              if (_selectedIndex == 2) {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const CaloriesActivity()));
+              } else if (_selectedIndex == 1) {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const PostsPage()));
+              } else if (_selectedIndex == 0) {
                 print("Same Page");
               }
             });
           },
-          tabs: [
+          tabs: const [
             GButton(
               icon: Icons.home,
               text: 'Home',
