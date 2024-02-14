@@ -15,7 +15,6 @@ class UpdateInformation extends StatefulWidget {
 }
 
 class _UpdateInformationState extends State<UpdateInformation> {
-
   @override
   void initState() {
     //readCurrentUserInfo();
@@ -27,7 +26,8 @@ class _UpdateInformationState extends State<UpdateInformation> {
   final TextEditingController _controllerAge = TextEditingController();
   final TextEditingController _controllerWeight = TextEditingController();
   final TextEditingController _controllerHeight = TextEditingController();
-  final TextEditingController _controllerWeeklyActivity = TextEditingController();
+  final TextEditingController _controllerWeeklyActivity =
+      TextEditingController();
   final _messageKey = GlobalKey<ScaffoldMessengerState>();
   final db = FirebaseFirestore.instance;
   String? currentName;
@@ -47,7 +47,7 @@ class _UpdateInformationState extends State<UpdateInformation> {
 
   // Future<void> readCurrentUserInfo() async{
   //   String uid = Auth().currentUser!.uid;
-    
+
   //   print("getting data");
 
   //   db.collection("users").doc("${uid}").get().then((DocumentSnapshot ds) async{
@@ -55,9 +55,8 @@ class _UpdateInformationState extends State<UpdateInformation> {
   //     currentSurname = ds['surname'];
   //     currentGender = ds['gender'];
   //   });
-  
-  // }
 
+  // }
 
   Future<void> updateUserInfo() async {
     String uid = Auth().currentUser!.uid;
@@ -348,7 +347,6 @@ class _UpdateInformationState extends State<UpdateInformation> {
                                     MaterialPageRoute(
                                         builder: (context) => const Home()));
                               }
-                              ;
                             });
                           },
                         ),
