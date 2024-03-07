@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:myapp/page-1/home.dart';
 import 'package:myapp/page-1/posts.dart';
+import 'package:myapp/page-1/welcome.dart';
 import 'package:myapp/utils.dart';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:myapp/auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:myapp/rootpage.dart';
 
 class UpdateInformation extends StatefulWidget {
   const UpdateInformation({super.key});
@@ -31,6 +33,7 @@ class _UpdateInformationState extends State<UpdateInformation> {
       TextEditingController();
   final _messageKey = GlobalKey<ScaffoldMessengerState>();
   final db = FirebaseFirestore.instance;
+  final User? user = Auth().currentUser;
   String? currentName;
   String? currentSurname;
   String? currentGender;
@@ -117,129 +120,11 @@ class _UpdateInformationState extends State<UpdateInformation> {
     ));
   }
 
-  void showSuggestions() {
-    showDialog(
-        context: context,
-        barrierDismissible: false,
-        //context: _scaffoldKey.currentContext,
-        builder: (context) {
-          return AlertDialog(
-            contentPadding: EdgeInsets.only(left: 25, right: 25),
-            title: Center(child: Text("Sugerencias")),
-            
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(20.0))),
-            content: Container(
-              height: 300,
-              width: 300,
-              child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: <Widget>[
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Text('Sugerencia 1:', style: TextStyle(fontWeight: FontWeight.bold)),
-                    Text(
-                      'No te olvides de tomar 1 litro de agua por cada metro de estatura.',
-                    ),
-                    Text(
-                      'Sugerencia 2:', style: TextStyle(fontWeight: FontWeight.bold)
-                    ),
-                    Text(
-                      'Reparte la toma de agua durante el día y evita tomar mucha agua en las noches.',
-                    ),
-                    Text('Sugerencia 3:', style: TextStyle(fontWeight: FontWeight.bold)),
-                    Text(
-                      'En la alimentación se debe incluir todos los nutrientes, es decir, ' + 
-                      'carbohidratos, proteínas, grasas y vegetales en los que se incluyen las vitaminas.',
-                    ),
-                    Text(
-                      'Sugerencia 4:', style: TextStyle(fontWeight: FontWeight.bold)
-                    ),
-                    Text(
-                      'Es importante que consumas de manera obligatoria las vitaminas A, D y E.',
-                    ),
-                    Text('Sugerencia 5:', style: TextStyle(fontWeight: FontWeight.bold)),
-                    Text(
-                      'Siempre consume las calorías que son necesarias para tu peso, edad y estatura.',
-                    ),
-                    Text(
-                      'Sugerencia 6:', style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    Text(
-                      'No te saltes el desayuno, es la comida más importante del día.',
-                    ),
-                    Text('Sugerencia 7:', style: TextStyle(fontWeight: FontWeight.bold)),
-                    Text(
-                      'La moderación es clave. Disfruta de tus comidas favoritas de vez en cuando, ' + 
-                      'pero mantén en equilibrio con opcioes más saludables el resto del tiempo.',
-                    ),
-                    Text(
-                      'Sugerencia 8:', style: TextStyle(fontWeight: FontWeight.bold)
-                    ),
-                    Text(
-                      'Escucha tu cuerpo. Come cuando tengas hambre y para cuando estés satisfecho.',
-                    ),
-                    Text('Sugerencia 9:', style: TextStyle(fontWeight: FontWeight.bold)),
-                    Text(
-                      'Tu salud es tu mayor riqueza. Alimenta tu cuerpo con nutrientes de calidad para ' + 
-                      'garantizar unn futuro saludable y lleno de energía.',
-                    ),
-                    Text(
-                      'Sugerencia 10:', style: TextStyle(fontWeight: FontWeight.bold)
-                    ),
-                    Text(
-                      'Recuerda, cada bocado cuenta. Opta por alimentos frescos y naturales en lugar de ' +
-                      'procesados y llenos de azúcares añadidos.',
-                    ),
-                    Text('Sugerencia 11:', style: TextStyle(fontWeight: FontWeight.bold)),
-                    Text(
-                      'La comida chatarra puede saciar tu hambre, pero solo los alimentos nutritivos pueden nutrir tu cuerpo.',
-                    ),
-                    Text(
-                      'Sugerencia 12:', style: TextStyle(fontWeight: FontWeight.bold)
-                    ),
-                    Text(
-                      'Cuida tu cuerpo, es el único lugar que tienes para vivir. Aliméntalo con amor y respeto.',
-                    ),
-                    Text('Sugerencia 13:', style: TextStyle(fontWeight: FontWeight.bold)),
-                    Text(
-                      'Recuerda que los alimentos deben ser bien triturados, por lo menos debes tener entre 30 a 50 masticaciones ' + 
-                      'por cada bocado. Esto ayudará en tu digestión y a sentirte más satisfecho.',
-                    )
-                    
-                  ],
-                ),
-              ),
-            ),
-            actions: <Widget>[
-              Container(
-                //width: MediaQuery.of(context).size.width * 0.20,
-                width: double.infinity,
-                margin: const EdgeInsets.fromLTRB(75, 0, 75, 0),
-                child: ElevatedButton(
-                  style: const ButtonStyle(
-                    backgroundColor: MaterialStatePropertyAll<Color>(const Color(0xff796988),)
-                  ),
-                  child: new Text(
-                    'OK',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  
-                  // color: Color(0xFF121A21),
-                  // shape: new RoundedRectangleBorder(
-                  //   borderRadius: new BorderRadius.circular(30.0),
-                  // ),
-                  onPressed: () {
-                    //saveIssue();
-                    Navigator.of(context).pop();
-                  },
-                ),
-              ),
-            ],
-          );
-        });
+  Future<void> signOut() async {
+    await Auth().signOut();
+    setState(() {
+      AuthStatus.notSignedIn;
+    });
   }
 
   @override
@@ -501,7 +386,7 @@ class _UpdateInformationState extends State<UpdateInformation> {
                           ),
                           child: Center(
                             child: Text(
-                              'Sugerencias',
+                              'Cerrar Sesión',
                               textAlign: TextAlign.center,
                               style: SafeGoogleFont(
                                 'Nunito',
@@ -513,7 +398,12 @@ class _UpdateInformationState extends State<UpdateInformation> {
                             ),
                           ),
                         ),
-                        onTap: () => showSuggestions()),
+                        onTap: () => signOut().then(
+                        (value) => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const Welcome())),
+                      ),),
                   ),
                 ],
               ),

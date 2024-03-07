@@ -6,8 +6,7 @@ import 'package:myapp/auth.dart';
 import 'package:myapp/page-1/calories.dart';
 import 'package:myapp/page-1/information.dart';
 import 'package:myapp/page-1/posts.dart';
-import 'package:myapp/page-1/welcome.dart';
-import 'package:myapp/rootpage.dart';
+//import 'package:myapp/page-1/welcome.dart';
 import 'package:myapp/utils.dart';
 import 'package:pedometer/pedometer.dart';
 import 'dart:io';
@@ -88,23 +87,6 @@ class _HomeState extends State<Home> {
     return 0;
   }
 
-  Future<void> signOut() async {
-    String uid = user!.uid;
-    await db
-        .collection("users")
-        .doc("${uid}")
-        .collection("col")
-        .doc("activityinfo")
-        .update({
-      'totalsteps': savedStepsCount,
-    });
-
-    await Auth().signOut();
-    setState(() {
-      AuthStatus.notSignedIn;
-    });
-  }
-
   void postMessage() {
     String finalmessage = "Hoy he dado $todaySteps pasos.";
     db.collection("usersPosts").add({
@@ -136,6 +118,133 @@ class _HomeState extends State<Home> {
         ),
       ),
     );
+  }
+
+  void showSuggestions() {
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        //context: _scaffoldKey.currentContext,
+        builder: (context) {
+          return AlertDialog(
+            contentPadding: EdgeInsets.only(left: 25, right: 25),
+            title: Center(child: Text("Sugerencias")),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(20.0))),
+            content: Container(
+              height: 300,
+              width: 300,
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: <Widget>[
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Text('Sugerencia 1:',
+                        style: TextStyle(fontWeight: FontWeight.bold)),
+                    Text(
+                      'No te olvides de tomar 1 litro de agua por cada metro de estatura.',
+                    ),
+                    Text('Sugerencia 2:',
+                        style: TextStyle(fontWeight: FontWeight.bold)),
+                    Text(
+                      'Reparte la toma de agua durante el día y evita tomar mucha agua en las noches.',
+                    ),
+                    Text('Sugerencia 3:',
+                        style: TextStyle(fontWeight: FontWeight.bold)),
+                    Text(
+                      'En la alimentación se debe incluir todos los nutrientes, es decir, ' +
+                          'carbohidratos, proteínas, grasas y vegetales en los que se incluyen las vitaminas.',
+                    ),
+                    Text('Sugerencia 4:',
+                        style: TextStyle(fontWeight: FontWeight.bold)),
+                    Text(
+                      'Es importante que consumas de manera obligatoria las vitaminas A, D y E.',
+                    ),
+                    Text('Sugerencia 5:',
+                        style: TextStyle(fontWeight: FontWeight.bold)),
+                    Text(
+                      'Siempre consume las calorías que son necesarias para tu peso, edad y estatura.',
+                    ),
+                    Text(
+                      'Sugerencia 6:',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      'No te saltes el desayuno, es la comida más importante del día.',
+                    ),
+                    Text('Sugerencia 7:',
+                        style: TextStyle(fontWeight: FontWeight.bold)),
+                    Text(
+                      'La moderación es clave. Disfruta de tus comidas favoritas de vez en cuando, ' +
+                          'pero mantén en equilibrio con opcioes más saludables el resto del tiempo.',
+                    ),
+                    Text('Sugerencia 8:',
+                        style: TextStyle(fontWeight: FontWeight.bold)),
+                    Text(
+                      'Escucha tu cuerpo. Come cuando tengas hambre y para cuando estés satisfecho.',
+                    ),
+                    Text('Sugerencia 9:',
+                        style: TextStyle(fontWeight: FontWeight.bold)),
+                    Text(
+                      'Tu salud es tu mayor riqueza. Alimenta tu cuerpo con nutrientes de calidad para ' +
+                          'garantizar unn futuro saludable y lleno de energía.',
+                    ),
+                    Text('Sugerencia 10:',
+                        style: TextStyle(fontWeight: FontWeight.bold)),
+                    Text(
+                      'Recuerda, cada bocado cuenta. Opta por alimentos frescos y naturales en lugar de ' +
+                          'procesados y llenos de azúcares añadidos.',
+                    ),
+                    Text('Sugerencia 11:',
+                        style: TextStyle(fontWeight: FontWeight.bold)),
+                    Text(
+                      'La comida chatarra puede saciar tu hambre, pero solo los alimentos nutritivos pueden nutrir tu cuerpo.',
+                    ),
+                    Text('Sugerencia 12:',
+                        style: TextStyle(fontWeight: FontWeight.bold)),
+                    Text(
+                      'Cuida tu cuerpo, es el único lugar que tienes para vivir. Aliméntalo con amor y respeto.',
+                    ),
+                    Text('Sugerencia 13:',
+                        style: TextStyle(fontWeight: FontWeight.bold)),
+                    Text(
+                      'Recuerda que los alimentos deben ser bien triturados, por lo menos debes tener entre 30 a 50 masticaciones ' +
+                          'por cada bocado. Esto ayudará en tu digestión y a sentirte más satisfecho.',
+                    )
+                  ],
+                ),
+              ),
+            ),
+            actions: <Widget>[
+              Container(
+                //width: MediaQuery.of(context).size.width * 0.20,
+                width: double.infinity,
+                margin: const EdgeInsets.fromLTRB(75, 0, 75, 0),
+                child: ElevatedButton(
+                  style: const ButtonStyle(
+                      backgroundColor: MaterialStatePropertyAll<Color>(
+                    const Color(0xff796988),
+                  )),
+                  child: new Text(
+                    'OK',
+                    style: TextStyle(color: Colors.white),
+                  ),
+
+                  // color: Color(0xFF121A21),
+                  // shape: new RoundedRectangleBorder(
+                  //   borderRadius: new BorderRadius.circular(30.0),
+                  // ),
+                  onPressed: () {
+                    //saveIssue();
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ),
+            ],
+          );
+        });
   }
 
   getCaloriesBurnt(String steps) async {
@@ -534,32 +643,26 @@ class _HomeState extends State<Home> {
                     width: double.infinity,
                     height: 35 * fem,
                     child: InkWell(
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: const Color(0xff796988),
-                          borderRadius: BorderRadius.circular(20 * fem),
-                        ),
-                        child: Center(
-                          child: Text(
-                            'Salir',
-                            textAlign: TextAlign.center,
-                            style: SafeGoogleFont(
-                              'Nunito',
-                              fontSize: 14 * ffem,
-                              fontWeight: FontWeight.w600,
-                              height: 1.3625 * ffem / fem,
-                              color: const Color(0xffffffff),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: const Color(0xff796988),
+                            borderRadius: BorderRadius.circular(20 * fem),
+                          ),
+                          child: Center(
+                            child: Text(
+                              'Sugerencias',
+                              textAlign: TextAlign.center,
+                              style: SafeGoogleFont(
+                                'Nunito',
+                                fontSize: 14 * ffem,
+                                fontWeight: FontWeight.w600,
+                                height: 1.3625 * ffem / fem,
+                                color: const Color(0xffffffff),
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                      onTap: () => signOut().then(
-                        (value) => Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const Welcome())),
-                      ),
-                    ),
+                        onTap: () => showSuggestions()),
                   ),
                   // Container(
                   //   // group4bwH (192:4)
