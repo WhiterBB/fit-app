@@ -17,7 +17,7 @@ class SignUp extends StatefulWidget {
 
 class _SignUpState extends State<SignUp> {
   String? errorMessage = '';
-
+  String _institutionalEmail = '@indoamerica.edu.ec';
   final TextEditingController _controllerEmail = TextEditingController();
   final TextEditingController _controllerPassword = TextEditingController();
   final TextEditingController _controllerName = TextEditingController();
@@ -28,8 +28,24 @@ class _SignUpState extends State<SignUp> {
 
   Future<void> createUserWithEmailAndPassword() async {
     try {
-      await Auth().createUserWithEmailAndPassword(
+      if(_controllerEmail.text.contains(_institutionalEmail)){
+        await Auth().createUserWithEmailAndPassword(
           email: _controllerEmail.text, password: _controllerPassword.text);
+      }else{
+        _messageKey.currentState!.showSnackBar(SnackBar(
+        elevation: 0,
+        behavior: SnackBarBehavior.floating,
+        backgroundColor: Colors.transparent,
+        //forceActionsBelow: true,
+        content: AwesomeSnackbarContent(
+          title: 'Error!',
+          message: 'Ingresa un correo institucional',
+          contentType: ContentType.failure,
+          //inMaterialBanner: true,
+        ),
+        //actions: const [SizedBox.shrink()],
+      ));
+      }
     } on FirebaseAuthException catch (e) {
       setState(() {
         errorMessage = e.message;
