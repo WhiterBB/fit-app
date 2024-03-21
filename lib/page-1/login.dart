@@ -21,7 +21,6 @@ class _LoginState extends State<Login> {
   final TextEditingController _controllerEmail = TextEditingController();
   final TextEditingController _controllerPassword = TextEditingController();
   final _messageKey = GlobalKey<ScaffoldMessengerState>();
-  
 
   Future<void> signInWithEmailAndPassword() async {
     try {
@@ -150,7 +149,17 @@ class _LoginState extends State<Login> {
                         controller: _controllerEmail,
                         enableSuggestions: false,
                         autocorrect: false,
-                        decoration: const InputDecoration(hintText: 'E-mail'),
+                        decoration: InputDecoration(
+                          hintText: 'Correo Electrónico',
+                          enabledBorder: const OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.black),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                                borderSide:
+                                    const BorderSide(color: Colors.deepPurple),
+                                    borderRadius: BorderRadius.circular(6),
+                              ),
+                        ),
                         style: SafeGoogleFont(
                           'Nunito',
                           fontSize: 14 * ffem,
@@ -175,7 +184,17 @@ class _LoginState extends State<Login> {
                         enableSuggestions: false,
                         autocorrect: false,
                         decoration:
-                            const InputDecoration(hintText: "Contraseña"),
+                            InputDecoration(
+                              hintText: "Contraseña",
+                              enabledBorder: const OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.black),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                                borderSide:
+                                    const BorderSide(color: Colors.deepPurple),
+                                    borderRadius: BorderRadius.circular(6),
+                              ),
+                              ),
                         style: SafeGoogleFont(
                           'Nunito',
                           fontSize: 14 * ffem,
@@ -199,7 +218,7 @@ class _LoginState extends State<Login> {
                             ),
                             child: Center(
                               child: Text(
-                                'Login',
+                                'Iniciar Sesión',
                                 style: SafeGoogleFont(
                                   'Nunito',
                                   fontSize: 18 * ffem,
