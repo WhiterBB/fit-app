@@ -80,7 +80,7 @@ class Welcome extends StatelessWidget {
                           ),
                           child: Center(
                             child: Text(
-                              'Login',
+                              'Iniciar Sesión',
                               style: SafeGoogleFont(
                                 'Nunito',
                                 fontSize: 24 * ffem,

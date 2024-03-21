@@ -192,7 +192,7 @@ class _SignUpState extends State<SignUp> {
                             Container(
                               // registroWa5 (104:57)
                               margin: EdgeInsets.fromLTRB(
-                                  0.74 * fem, 0 * fem, 0 * fem, 50 * fem),
+                                  0.74 * fem, 0 * fem, 0 * fem, 20 * fem),
                               child: Text(
                                 'Registro',
                                 style: SafeGoogleFont(
@@ -207,9 +207,9 @@ class _SignUpState extends State<SignUp> {
                             Container(
                               // group1ct1 (104:61)
                               margin: EdgeInsets.fromLTRB(
-                                  0 * fem, 0 * fem, 0 * fem, 45.91 * fem),
+                                  0 * fem, 0 * fem, 0 * fem, 20 * fem),
                               width: double.infinity,
-                              height: 23.09 * fem,
+                              height: 50 * fem,
                               child: TextField(
                                 controller: _controllerEmail,
                                 enableSuggestions: false,
@@ -237,9 +237,9 @@ class _SignUpState extends State<SignUp> {
                             Container(
                               // group2K1j (104:58)
                               margin: EdgeInsets.fromLTRB(
-                                  0 * fem, 0 * fem, 0 * fem, 46.33 * fem),
+                                  0 * fem, 0 * fem, 0 * fem, 20 * fem),
                               width: double.infinity,
-                              height: 23.09 * fem,
+                              height: 50 * fem,
                               child: TextField(
                                 controller: _controllerPassword,
                                 obscureText: true,
@@ -268,15 +268,24 @@ class _SignUpState extends State<SignUp> {
                             Container(
                               // group1ct1 (104:61)
                               margin: EdgeInsets.fromLTRB(
-                                  0 * fem, 0 * fem, 0 * fem, 45.91 * fem),
+                                  0 * fem, 0 * fem, 0 * fem, 20 * fem),
                               width: double.infinity,
-                              height: 23.09 * fem,
+                              height: 50 * fem,
                               child: TextField(
                                 controller: _controllerName,
                                 enableSuggestions: false,
                                 autocorrect: false,
                                 decoration:
-                                    const InputDecoration(hintText: 'Nombre'),
+                                    InputDecoration(
+                                      hintText: 'Nombre',
+                                      enabledBorder: const OutlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.black),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: const BorderSide(
+                                        color: Colors.deepPurple),
+                                    borderRadius: BorderRadius.circular(6),
+                                  ),),
                                 style: SafeGoogleFont(
                                   'Nunito',
                                   fontSize: 14 * ffem,
@@ -289,15 +298,24 @@ class _SignUpState extends State<SignUp> {
                             Container(
                               // group1ct1 (104:61)
                               margin: EdgeInsets.fromLTRB(
-                                  0 * fem, 0 * fem, 0 * fem, 45.91 * fem),
+                                  0 * fem, 0 * fem, 0 * fem, 20 * fem),
                               width: double.infinity,
-                              height: 23.09 * fem,
+                              height: 50 * fem,
                               child: TextField(
                                 controller: _controllerSurname,
                                 enableSuggestions: false,
                                 autocorrect: false,
                                 decoration:
-                                    const InputDecoration(hintText: 'Apellido'),
+                                    InputDecoration(
+                                      hintText: 'Apellido',
+                                      enabledBorder: const OutlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.black),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: const BorderSide(
+                                        color: Colors.deepPurple),
+                                    borderRadius: BorderRadius.circular(6),
+                                  ),),
                                 style: SafeGoogleFont(
                                   'Nunito',
                                   fontSize: 14 * ffem,
@@ -312,13 +330,22 @@ class _SignUpState extends State<SignUp> {
                               margin: EdgeInsets.fromLTRB(
                                   0 * fem, 0 * fem, 0 * fem, 45.91 * fem),
                               width: double.infinity,
-                              height: 23.09 * fem,
+                              height: 50 * fem,
                               child: TextField(
                                 controller: _controllerGender,
                                 enableSuggestions: false,
                                 autocorrect: false,
                                 decoration:
-                                    const InputDecoration(hintText: 'Género'),
+                                    InputDecoration(
+                                      hintText: 'Género',
+                                      enabledBorder: const OutlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.black),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: const BorderSide(
+                                        color: Colors.deepPurple),
+                                    borderRadius: BorderRadius.circular(6),
+                                  ),),
                                 style: SafeGoogleFont(
                                   'Nunito',
                                   fontSize: 14 * ffem,

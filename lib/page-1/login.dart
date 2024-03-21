@@ -112,7 +112,7 @@ class _LoginState extends State<Login> {
               Container(
                 // formxXK (104:36)
                 padding: EdgeInsets.fromLTRB(
-                    35 * fem, 97 * fem, 37 * fem, 30.23 * fem),
+                    35 * fem, 50 * fem, 37 * fem, 30.23 * fem),
                 width: double.infinity,
                 decoration: BoxDecoration(
                   color: const Color(0xff796988),
@@ -124,7 +124,7 @@ class _LoginState extends State<Login> {
                     Container(
                       // bienvenidoafitappef3 (104:37)
                       margin: EdgeInsets.fromLTRB(
-                          0 * fem, 0 * fem, 0 * fem, 72 * fem),
+                          0 * fem, 0 * fem, 0 * fem, 50 * fem),
                       child: Text(
                         'Bienvenido a FitAPP',
                         style: SafeGoogleFont(
@@ -141,7 +141,7 @@ class _LoginState extends State<Login> {
                       margin: EdgeInsets.fromLTRB(
                           5 * fem, 0 * fem, 2.74 * fem, 45.91 * fem),
                       width: double.infinity,
-                      height: 23.09 * fem,
+                      height: 50 * fem,
                       child: TextField(
                         // children: <Widget>[
                         //   _entryField('E-mail', _controllerEmail),
@@ -151,8 +151,9 @@ class _LoginState extends State<Login> {
                         autocorrect: false,
                         decoration: InputDecoration(
                           hintText: 'Correo Electrónico',
-                          enabledBorder: const OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.black),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(color: Colors.black),
+                            borderRadius: BorderRadius.circular(6),
                           ),
                           focusedBorder: OutlineInputBorder(
                                 borderSide:
@@ -174,7 +175,7 @@ class _LoginState extends State<Login> {
                       margin: EdgeInsets.fromLTRB(
                           5 * fem, 0 * fem, 2.74 * fem, 46.33 * fem),
                       width: double.infinity,
-                      height: 23.09 * fem,
+                      height: 50 * fem,
                       child: TextField(
                         // children: <Widget>[
                         //   _entryField('Contraseña', _controllerPassword),
