@@ -53,8 +53,8 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyDAqmE9sWW6RzVsTiE_23yH8-Mp_FJ586M',
-    appId: '1:382440199280:android:e94d278aad6e1c62b350b5',
+    apiKey: 'apiKey',
+    appId: 'appId',
     messagingSenderId: '382440199280',
     projectId: 'fitapp-eec89',
     storageBucket: 'fitapp-eec89.appspot.com',
