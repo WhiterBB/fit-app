@@ -20,7 +20,6 @@ class UpdateInformation extends StatefulWidget {
 class _UpdateInformationState extends State<UpdateInformation> {
   @override
   void initState() {
-    //readCurrentUserInfo();
     print("got data");
     super.initState();
   }
@@ -40,48 +39,12 @@ class _UpdateInformationState extends State<UpdateInformation> {
   bool enabledForm = true;
   int _selectedIndex = 0;
 
-  // Future<void> test() async{
-  //   String uid = Auth().currentUser!.uid;
-  //   String addSome = _controllerName.text.trim();
-
-  //   db.collection("users").doc("${uid}").collection("col").doc("activityinfo").update({
-  //     'some' : addSome,
-  //     'uwu' : "uwu",
-  //   }).onError((error, stackTrace) => null);
-  // }
-
-  // Future<void> readCurrentUserInfo() async{
-  //   String uid = Auth().currentUser!.uid;
-
-  //   print("getting data");
-
-  //   db.collection("users").doc("${uid}").get().then((DocumentSnapshot ds) async{
-  //     currentName = ds['name'];
-  //     currentSurname = ds['surname'];
-  //     currentGender = ds['gender'];
-  //   });
-
-  // }
-
   Future<void> updateUserInfo() async {
     String uid = Auth().currentUser!.uid;
-    // String name = _controllerName.text.trim();
-    // String surname = _controllerSurname.text.trim();
-    // String gender = _controllerGender.text.trim();
     int age = int.parse(_controllerAge.text.trim());
     int weight = int.parse(_controllerWeight.text.trim());
     int height = int.parse(_controllerHeight.text.trim());
     String weeklyactivity = _controllerWeeklyActivity.text.trim();
-
-    // print("fill current");
-    // if(currentName!= '' || currentSurname!= '' || currentGender!= ''){
-    //   name = currentName!;
-    //   surname = currentSurname!;
-    //   gender = currentGender!;
-    //   setState(() {
-    //     enabledForm = false;
-    //   });
-    // }
 
     db.collection("users").doc("${uid}").update({
       'age': age,
@@ -96,14 +59,11 @@ class _UpdateInformationState extends State<UpdateInformation> {
         elevation: 0,
         behavior: SnackBarBehavior.floating,
         backgroundColor: Colors.transparent,
-        //forceActionsBelow: true,
         content: AwesomeSnackbarContent(
           title: 'Error!',
           message: errorMessage.toString(),
           contentType: ContentType.failure,
-          //inMaterialBanner: true,
         ),
-        //actions: const [SizedBox.shrink()],
       ));
     });
   }
@@ -210,8 +170,6 @@ class _UpdateInformationState extends State<UpdateInformation> {
                                     const BorderSide(color: Colors.deepPurple),
                                 borderRadius: BorderRadius.circular(6),
                               ),
-                              //fillColor: Colors.grey[400],
-                              //filled: true,
                             ),
                             style: SafeGoogleFont(
                               'Nunito',
@@ -242,8 +200,6 @@ class _UpdateInformationState extends State<UpdateInformation> {
                                     const BorderSide(color: Colors.deepPurple),
                                 borderRadius: BorderRadius.circular(6),
                               ),
-                              //fillColor: Colors.grey[400],
-                              //filled: true,
                             ),
                             style: SafeGoogleFont(
                               'Nunito',
@@ -274,8 +230,6 @@ class _UpdateInformationState extends State<UpdateInformation> {
                                     const BorderSide(color: Colors.deepPurple),
                                 borderRadius: BorderRadius.circular(6),
                               ),
-                              //fillColor: Colors.grey[400],
-                              //filled: true,
                             ),
                             style: SafeGoogleFont(
                               'Nunito',
@@ -306,8 +260,6 @@ class _UpdateInformationState extends State<UpdateInformation> {
                                     const BorderSide(color: Colors.deepPurple),
                                 borderRadius: BorderRadius.circular(6),
                               ),
-                              //fillColor: Colors.grey[400],
-                              //filled: true,
                             ),
                             style: SafeGoogleFont(
                               'Nunito',
@@ -321,14 +273,6 @@ class _UpdateInformationState extends State<UpdateInformation> {
                       ],
                     ),
                   ),
-                  // Container(
-                  //   margin: EdgeInsets.fromLTRB(
-                  //       0 * fem, 0 * fem, 0 * fem, 0 * fem),
-                  //   width: double.infinity,
-                  //   height: 35 * fem,
-                  //   child: Row(
-                  //     crossAxisAlignment: CrossAxisAlignment.center,
-                  //     children: [
                   Container(
                     // group42ef (170:4)
                     margin: EdgeInsets.fromLTRB(
@@ -357,7 +301,6 @@ class _UpdateInformationState extends State<UpdateInformation> {
                       ),
                       onTap: () => updateUserInfo().then(
                         (value) {
-                          //test();
                           FirebaseAuth.instance
                               .authStateChanges()
                               .listen((user) {
