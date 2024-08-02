@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/page-1/login.dart';
 import 'package:myapp/page-1/signup.dart';
-//import 'package:flutter/gestures.dart';
-//import 'package:google_fonts/google_fonts.dart';
 import 'package:myapp/utils.dart';
 
 
