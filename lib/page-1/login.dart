@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/page-1/home.dart';
-//import 'package:flutter/gestures.dart';
-//import 'package:google_fonts/google_fonts.dart';
 import 'package:myapp/utils.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:myapp/auth.dart';
@@ -37,21 +35,14 @@ class _LoginState extends State<Login> {
         elevation: 0,
         behavior: SnackBarBehavior.floating,
         backgroundColor: Colors.transparent,
-        //forceActionsBelow: true,
         content: AwesomeSnackbarContent(
           title: 'Error!',
           message: errorMessage.toString(),
           contentType: ContentType.failure,
-          //inMaterialBanner: true,
         ),
-        //actions: const [SizedBox.shrink()],
       ));
     }
   }
-
-  // Widget _errorMessage() {
-  //   return Text(errorMessage == '' ? '' : '$errorMessage');
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +53,6 @@ class _LoginState extends State<Login> {
     return MaterialApp(
       scaffoldMessengerKey: _messageKey,
       home: Scaffold(
-          //resizeToAvoidBottomInset: false,
           body: SingleChildScrollView(
               child: Container(
         width: double.infinity,
@@ -143,9 +133,6 @@ class _LoginState extends State<Login> {
                       width: double.infinity,
                       height: 50 * fem,
                       child: TextField(
-                        // children: <Widget>[
-                        //   _entryField('E-mail', _controllerEmail),
-                        // ],
                         controller: _controllerEmail,
                         enableSuggestions: false,
                         autocorrect: false,
@@ -177,9 +164,6 @@ class _LoginState extends State<Login> {
                       width: double.infinity,
                       height: 50 * fem,
                       child: TextField(
-                        // children: <Widget>[
-                        //   _entryField('Contraseña', _controllerPassword),
-                        // ],
                         controller: _controllerPassword,
                         obscureText: true,
                         enableSuggestions: false,
@@ -241,13 +225,7 @@ class _LoginState extends State<Login> {
                                           MaterialPageRoute(
                                               builder: (context) =>
                                                   const Home()));
-                                      // _messageKey.currentState!.showSnackBar(
-                                      //   const SnackBar(content: Text('Ingreso correctamente')),
-                                      // );
                                     } else {
-                                      // _messageKey.currentState!.showSnackBar(
-                                      //   const SnackBar(content: Text('No ingreso xd')),
-                                      // );
                                     }
                                   });
                                 },
