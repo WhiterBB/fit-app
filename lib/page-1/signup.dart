@@ -2,8 +2,6 @@ import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:myapp/page-1/login.dart';
-//import 'package:flutter/gestures.dart';
-//import 'package:google_fonts/google_fonts.dart';
 import 'package:myapp/utils.dart';
 import 'package:myapp/auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -17,7 +15,7 @@ class SignUp extends StatefulWidget {
 
 class _SignUpState extends State<SignUp> {
   String? errorMessage = '';
-  String _institutionalEmail = '@indoamerica.edu.ec';
+  String _institutionalEmail = '@institutional_mail';
   final TextEditingController _controllerEmail = TextEditingController();
   final TextEditingController _controllerPassword = TextEditingController();
   final TextEditingController _controllerName = TextEditingController();
@@ -36,14 +34,11 @@ class _SignUpState extends State<SignUp> {
           elevation: 0,
           behavior: SnackBarBehavior.floating,
           backgroundColor: Colors.transparent,
-          //forceActionsBelow: true,
           content: AwesomeSnackbarContent(
             title: 'Error!',
             message: 'Ingresa un correo institucional',
             contentType: ContentType.failure,
-            //inMaterialBanner: true,
           ),
-          //actions: const [SizedBox.shrink()],
         ));
       }
     } on FirebaseAuthException catch (e) {
@@ -54,14 +49,11 @@ class _SignUpState extends State<SignUp> {
         elevation: 0,
         behavior: SnackBarBehavior.floating,
         backgroundColor: Colors.transparent,
-        //forceActionsBelow: true,
         content: AwesomeSnackbarContent(
           title: 'Error!',
           message: errorMessage.toString(),
           contentType: ContentType.failure,
-          //inMaterialBanner: true,
         ),
-        //actions: const [SizedBox.shrink()],
       ));
     }
   }
@@ -116,10 +108,6 @@ class _SignUpState extends State<SignUp> {
     }).onError((error, stackTrace) => null);
   }
 
-  // Widget _errorMessage() {
-  //   return Text(errorMessage == '' ? '' : 'Error: $errorMessage');
-  // }
-
   @override
   Widget build(BuildContext context) {
     double baseWidth = 360;
@@ -129,7 +117,6 @@ class _SignUpState extends State<SignUp> {
     return MaterialApp(
         scaffoldMessengerKey: _messageKey,
         home: Scaffold(
-            //resizeToAvoidBottomInset: false,
             body: SingleChildScrollView(
           child: Container(
             width: double.infinity,
@@ -393,13 +380,8 @@ class _SignUpState extends State<SignUp> {
                                                 MaterialPageRoute(
                                                     builder: (context) =>
                                                         const Login()));
-                                            // _messageKey.currentState!.showSnackBar(
-                                            //   const SnackBar(content: Text('Ingreso correctamente')),
-                                            // );
                                           } else {
-                                            // _messageKey.currentState!.showSnackBar(
-                                            //   const SnackBar(content: Text('No ingreso xd')),
-                                            // );
+
                                           }
                                         });
                                       })),
