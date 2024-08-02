@@ -6,7 +6,6 @@ import 'package:myapp/auth.dart';
 import 'package:myapp/page-1/calories.dart';
 import 'package:myapp/page-1/information.dart';
 import 'package:myapp/page-1/posts.dart';
-//import 'package:myapp/page-1/welcome.dart';
 import 'package:myapp/utils.dart';
 import 'package:pedometer/pedometer.dart';
 import 'dart:io';
@@ -34,7 +33,6 @@ class _HomeState extends State<Home> {
   int lastdaySaved = 0;
   int todaySteps = 0;
   int weight = 0;
-  //String _distance = '0';
 
   @override
   void initState() {
@@ -100,9 +98,6 @@ class _HomeState extends State<Home> {
     int stepsEnter = int.parse(steps);
     double distance = stepsEnter * 0.000762;
 
-    // setState(() {
-    //   _distance = distance.toString();
-    // });
     return Container(
       margin: const EdgeInsets.fromLTRB(0, 10, 0, 40),
       width: double.infinity,
@@ -124,7 +119,6 @@ class _HomeState extends State<Home> {
     showDialog(
         context: context,
         barrierDismissible: false,
-        //context: _scaffoldKey.currentContext,
         builder: (context) {
           return AlertDialog(
             contentPadding: EdgeInsets.only(left: 25, right: 25),
@@ -219,7 +213,6 @@ class _HomeState extends State<Home> {
             ),
             actions: <Widget>[
               Container(
-                //width: MediaQuery.of(context).size.width * 0.20,
                 width: double.infinity,
                 margin: const EdgeInsets.fromLTRB(75, 0, 75, 0),
                 child: ElevatedButton(
@@ -232,12 +225,7 @@ class _HomeState extends State<Home> {
                     style: TextStyle(color: Colors.white),
                   ),
 
-                  // color: Color(0xFF121A21),
-                  // shape: new RoundedRectangleBorder(
-                  //   borderRadius: new BorderRadius.circular(30.0),
-                  // ),
                   onPressed: () {
-                    //saveIssue();
                     Navigator.of(context).pop();
                   },
                 ),
@@ -285,8 +273,7 @@ class _HomeState extends State<Home> {
 
   getTodaySteps(int value) async {
     String uid = user!.uid;
-    //print(value);
-
+    
     await db
         .collection("users")
         .doc("${uid}")
@@ -296,7 +283,6 @@ class _HomeState extends State<Home> {
         .then((DocumentSnapshot ds) async {
       savedStepsCount = ds['totalsteps'];
     });
-    //print(savedStepsCount);
 
     int todayDayNo = Jiffy.now().dayOfYear;
     if (value < savedStepsCount) {
@@ -464,8 +450,6 @@ class _HomeState extends State<Home> {
                                 (BuildContext context, AsyncSnapshot snapshot) {
                               if (snapshot.hasData) {
                                 return snapshot.data!;
-                                //if(snapshot.connectionState == ConnectionState.waiting){
-                                //  return snapshot.data!;
                               } else {
                                 return CircularProgressIndicator();
                               }
@@ -474,19 +458,6 @@ class _HomeState extends State<Home> {
                           margin: EdgeInsets.fromLTRB(
                               0 * fem, 0 * fem, 0 * fem, 40 * fem),
                           width: double.infinity,
-                          // child: Text(
-                          //   //getTodaySteps(int.parse(_steps)).toString(),
-                          //   //'uwu',
-                          //   _steps,
-                          //   textAlign: TextAlign.left,
-                          //   style: SafeGoogleFont(
-                          //     'Nunito',
-                          //     fontSize: 20 * ffem,
-                          //     fontWeight: FontWeight.w300,
-                          //     height: 1.3625 * ffem / fem,
-                          //     color: const Color(0xffffffff),
-                          //   ),
-                          // ),
                         ),
                         SizedBox(
                           // distanciarecorridamtd (105:87)
@@ -503,10 +474,6 @@ class _HomeState extends State<Home> {
                             ),
                           ),
                         ),
-                        // Container(
-                        //   margin: EdgeInsets.fromLTRB(
-                        //       0 * fem, 10 * fem, 0 * fem, 40 * fem),
-                        //   width: double.infinity,
 
                         FutureBuilder(
                             future: getDistance(todaySteps.toString()),
@@ -518,17 +485,7 @@ class _HomeState extends State<Home> {
                                 return CircularProgressIndicator();
                               }
                             }),
-                        //'Distancia',
-                        //     textAlign: TextAlign.left,
-                        //     style: SafeGoogleFont(
-                        //       'Nunito',
-                        //       fontSize: 20 * ffem,
-                        //       fontWeight: FontWeight.w300,
-                        //       height: 1.3625 * ffem / fem,
-                        //       color: const Color(0xffffffff),
-                        //     ),
-                        //   ),
-                        // ),
+                        
                         Container(
                           // pasoshoyTsw (105:86)
                           margin: EdgeInsets.fromLTRB(
@@ -546,22 +503,7 @@ class _HomeState extends State<Home> {
                             ),
                           ),
                         ),
-                        // Container(
-                        //   margin: EdgeInsets.fromLTRB(
-                        //       0 * fem, 0 * fem, 0 * fem, 20 * fem),
-                        //   width: double.infinity,
-                        //   child: Text(
-                        //     'Calorías',
-                        //     textAlign: TextAlign.left,
-                        //     style: SafeGoogleFont(
-                        //       'Nunito',
-                        //       fontSize: 20 * ffem,
-                        //       fontWeight: FontWeight.w300,
-                        //       height: 1.3625 * ffem / fem,
-                        //       color: const Color(0xffffffff),
-                        //     ),
-                        //   ),
-                        // ),
+
                         FutureBuilder(
                             future: getCaloriesBurnt(todaySteps.toString()),
                             builder:
@@ -664,56 +606,12 @@ class _HomeState extends State<Home> {
                         ),
                         onTap: () => showSuggestions()),
                   ),
-                  // Container(
-                  //   // group4bwH (192:4)
-                  //   margin: EdgeInsets.fromLTRB(
-                  //       126 * fem, 0 * fem, 126 * fem, 20 * fem),
-                  //   width: 107 * fem,
-                  //   height: double.infinity,
-                  //   child: InkWell(
-                  //     child: Container(
-                  //       decoration: BoxDecoration(
-                  //         color: const Color(0xff796988),
-                  //         borderRadius: BorderRadius.circular(20 * fem),
-                  //       ),
-                  //       child: Center(
-                  //         child: Text(
-                  //           'Compartir',
-                  //           textAlign: TextAlign.center,
-                  //           style: SafeGoogleFont(
-                  //             'Nunito',
-                  //             fontSize: 14 * ffem,
-                  //             fontWeight: FontWeight.w600,
-                  //             height: 1.3625 * ffem / fem,
-                  //             color: const Color(0xffffffff),
-                  //           ),
-                  //         ),
-                  //       ),
-                  //     ),
-                  //     onTap: () => postMessage(),
-                  //   ),
-                  // ),
                 ],
               ),
             ),
           ),
         ),
-        bottomNavigationBar: //BottomNavigationBar(
-            //   currentIndex: _selectedIndex,
-            //   //backgroundColor: Colors.blueAccent,
-            //   backgroundColor: Color.fromRGBO(9, 9, 9, 1),
-            //   unselectedItemColor: Colors.white70,
-            //   //selectedIconTheme: IconThemeData(color: Colors.white),
-            //   selectedItemColor: Colors.white,
-            //   iconSize: 30,
-            //   type: BottomNavigationBarType.fixed,
-            //   onTap: _navigateBottomBar,
-            //   items: [
-            //     BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-            //     BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
-            //     BottomNavigationBarItem(icon: Icon(Icons.calculate), label: 'Calories'),
-            //   ],
-            // )
+        bottomNavigationBar: 
             GNav(
           backgroundColor: const Color.fromRGBO(9, 9, 9, 1),
           color: Colors.white70,
