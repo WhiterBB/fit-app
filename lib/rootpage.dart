@@ -8,8 +8,6 @@ import 'auth.dart';
 class RootPage extends StatefulWidget {
   const RootPage({super.key});
 
-  //final Auth auth;
-
   @override
   State<RootPage> createState() => _RootPageState();
 }
@@ -22,13 +20,6 @@ enum AuthStatus {
 
 class _RootPageState extends State<RootPage> {
   AuthStatus authStatus = AuthStatus.notDetermined;
-
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   widget.auth.currentUser;
-  //   String? user = Auth().currentUser;
-  // }
 
   @override
   void initState() {
